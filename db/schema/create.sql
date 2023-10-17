@@ -1,0 +1,38 @@
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE events (
+  id SERIAL PRIMARY KEY NOT NULL,
+  event_name VARCHAR(255) NOT NULL,
+  date DATE NOT NULL,
+  description TEXT
+);
+
+CREATE TABLE locations (
+  id SERIAL PRIMARY KEY NOT NULL,
+  longitude DECIMAL(10, 6) NOT NULL,
+  latitude DECIMAL(10, 6) NOT NULL,
+  name VARCHAR(255)
+);
+
+CREATE TABLE users_events (
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  event_id INTEGER REFERENCES events(id) ON DELETE CASCADE,
+);
+
+CREATE TABLE events_locations (
+  id SERIAL PRIMARY KEY NOT NULL,
+  location_id INTEGER REFERENCES locations(id) ON DELETE CASCADE,
+  event_id INTEGER REFERENCES events(id) ON DELETE CASCADE,
+);
+
+CREATE TABLE users_locations (
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  location_id INTEGER REFERENCES locations(id) ON DELETE CASCADE,
+);
