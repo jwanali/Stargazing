@@ -76,7 +76,7 @@ server.get("/login", (req,res) => {
   req.session.user_id = user.id;
   
   */
-  res.send(events)
+  res.send(users)
 });
 server.get("/sign_up", (req,res) => {
   /*
@@ -123,7 +123,7 @@ const weather_info = function(body) {
     const latitude = JSON.parse(body).latitude;
     const longitude = JSON.parse(body).longitude;
 
-  return request(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,windspeed_10m&hourly=temperature_2m,relativehumidity_2m,windspeed_10m`);
+  return request(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,rain,showers,snowfall,snow_depth,cloudcover,cloudcover_low,cloudcover_mid,cloudcover_high,visibility,winddirection_180m`);
 }
   
   fetchMyIP()
