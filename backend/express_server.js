@@ -1,4 +1,5 @@
-const {getUserByEmail, generateRandomString} = require('./helpers');
+const {getUserByEmail, generateRandomString,create_new_user} = require('./helpers');
+const db = require("../db/connection");
 const request = require('request-promise-native');
 const express = require("express");
 const cookieSession = require("cookie-session");
@@ -14,108 +15,145 @@ server.use(
   })
 );
 
-const users = {
-  userRandomID: {
-    id: "userRandomID",
-    firstName:"first name",
-    last_name:"last name",
-    email: "user@example.com",
-    password: bcrypt.hashSync("123", 10),
-  },
-  user2RandomID: {
-    id: "user2RandomID",
-    firstName:"first name",
-    last_name:"last name",
-    email: "user2@example.com",
-    password: bcrypt.hashSync("dishwasher-funk", 10)
-  },
-};
-const events = {
-  event1:{
-    id: '1',
-    name: "event1",
-    date: "date",
-    description: " description"
-  },
-  event2:{
-    id: '1',
-    name: "event1",
-    date: "date",
-    description: " description"
-  },
-  event3:{
-    id: '1',
-    name: "event1",
-    date: "date",
-    description: " description"
-  },
-  event4:{
-    id: '1',
-    name: "event1",
-    date: "date",
-    description: " description"
-  },
-}
+server.get("/events", (req,res) => {
+  db.query('SELECT * FROM events')
+  .then((data) => {
+    // Send the retrieved data as a JSON response
+    res.json(data.rows);
+    
+    console.log('Data from the "users" table:', data.rows);
+  })
+  .catch((err) => {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'An error occurred' });
+  });
+});
 
 
 server.get("/login", (req,res) => {
- /*
-  const email = req.body.email;
-  const password = req.body.password;
+ 
+  // const email = req.body.email; 
+  // const password = req.body.password;
+  const email = 'sebastianguerra@ymail.com';
+  const password = 'password';
+  
 
   if (!email || !password) {   // checking if email and password is valid or not
     return res.status(400).send("please input valid email and password");
   }
-  if (!getUserByEmail(email, users)) { //checking if the email is registered or not
-    return res.status(403).send("sorry the email does not match");
-  }
-  const user = getUserByEmail(email, users);
-  if (!bcrypt.compareSync(password, user.password)) { // checking if password entered is right
-    return res.status(403).send("sorry the password  does not match");
-  }
-  req.session.user_id = user.id;
+  const values = [email];
+  const query = `
+  SELECT DISTINCT users.name as user, users.email as email,users.id as id, users.password as password
+  FROM users
+   
+  WHERE users.email = $1
+`;
+
+db.query(query, values)
+  .then((result) => {
   
-  */
-  res.send(users)
+  if (result.rows.length === 0) {
+    // User not found or incorrect credentials
+    res.status(401).send('sorry Invalid eamil');
+    
+  } else if (result.rows[0].password != password) {
+  
+    res.status(401).send('sorry wrong  password ');
+  } else {
+    
+    res.json(result.rows);
+  }})
+.catch((err) => {
+console.log(err.message);
+res.status(500).send('Internal Server Error');
 });
+
+});
+server.get('/users', (req,res) => {
+  db.query('SELECT * FROM users')
+    .then((data) => {
+      // Send the retrieved data as a JSON response
+      res.json(data.rows);
+      
+      console.log('Data from the "users" table:', data.rows);
+    })
+    .catch((err) => {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'An error occurred' });
+    });
+})
+
 server.get("/sign_up", (req,res) => {
   /*
-  const email = req.body.email;
-  const password = req.body.password;
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  const password_confirmation = req.body.password_confirmation;
- 
-  if (!email || !password || (password != password_confirmation)) { // checking if email and password is valid or not
-    return res.status(400).send("please input valid email and password");
-  }
-  if (getUserByEmail(email, users)) { //checking if the email is registered or not
-    return res.status(400).send(`the  ${email} is already registerd`);
-  }
-
-  const hashedPassword = bcrypt.hashSync(password, 10);
-  const id = generateRandomString(12);
-  users[id] = {
-    id: id,
-    email: email,
-    lastName: lastName,
-    firstName: firstName,
-    password: hashedPassword,
+  const user = {
+   email : req.body.email,
+   password : req.body.password,
+   name : req.body.firstName,
+   password_confirmation : req.body.password_confirmation,
   };
-  req.session.user_id = id;
-  
   */
+  const user = {
+   email :'jwan@example.1com',
+   password : 'password',
+   name : 'jwan',
+   password_confirmation : 'password',
+  };
+ 
+  if (!user.email || !user.password || (user.password != user.password_confirmation)) { // checking if email and password is valid or not
+    return res.status(400).send("please input valid email and password should match");
+  }
+  const values = [user.email];
+  const query = `
+  SELECT DISTINCT users.name as user, users.email as email,users.id as id, users.password as password
+  FROM users
+   
+  WHERE users.email = $1
+`;
+
+db.query(query, values)
+  .then((result) => {
   
-  res.json(events)
+  if (result.rows.length === 0) {
+    const values = [
+      user.name,
+      user.email,
+      user.password]
+    const query2 = `INSERT INTO users (name , email, password )
+  VALUES ($1, $2, $3);`
+  db.query(query2, values)
+    .then ((data) => {
+      db.query('SELECT * FROM users')
+      .then((data) => {
+        // Send the retrieved data as a JSON response
+        console.log('Data from the "users" table:', data.rows);
+        res.json(data.rows[data.rows.length - 1]);  
+      })
+      .catch((err) => {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'An error occurred' });
+      });
+    })
+  .catch((err) => {
+    console.log(err.message);
+    res.status(500).send('Internal Server Error');
+  });
+  } else {
+    res.status(401).send('sorry this user already exist ');
+  }})
+.catch((err) => {
+console.log(err.message);
+res.status(500).send('Internal Server Error');
 });
+});
+
+
 server.get("/api/weather", (req,res) => {
   const fetchMyIP = function() {
     return request("https://api.ipify.org?format=json");
   };
   const fetchCoordsByIP = function(body) {
   const ip = JSON.parse(body).ip;
-  console.log(ip)
-  console.log(ip)
+  console.log(ip);
   return request(`http://ipwho.is/${ip}`);
 };
 const weather_info = function(body) {
@@ -123,14 +161,15 @@ const weather_info = function(body) {
     const latitude = JSON.parse(body).latitude;
     const longitude = JSON.parse(body).longitude;
 
-  return request(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,rain,showers,snowfall,snow_depth,cloudcover,cloudcover_low,cloudcover_mid,cloudcover_high,visibility,winddirection_180m`);
+  return request(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relativehumidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,uv_index_clear_sky_max&timezone=auto`);
 }
   
   fetchMyIP()
   .then (fetchCoordsByIP)
   .then(weather_info)
   .then ((data) => {
-   console.log(data)
+    console.log(JSON.parse(data))
+   //console.log(data)
    
     res.send(data)
   })
