@@ -1,5 +1,5 @@
 const {getUserByEmail, generateRandomString,create_new_user} = require('./helpers');
-const db = require("../db/connection");
+const db = require("./db/connection");
 const request = require('request-promise-native');
 const express = require("express");
 const cookieSession = require("cookie-session");
