@@ -34,7 +34,7 @@ const Section2 = (props) => {
       }}
     >
       <div className="w-1/2 flex items-center justify-center">
-          <div className="bg-white rounded-lg px-8 py-12">
+          <div className="Section2-box">
             {props.children}
           </div>
       </div>
