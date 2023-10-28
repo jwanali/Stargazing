@@ -66,16 +66,13 @@ import styled from "styled-components";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from 'react';
 import { Experience } from './components/Experience';
-import  Navbar  from './components/Navigation/index';
 import {Stars} from '@react-three/drei';
 
 
 
 function App() {
   return (
-    <>
-      <Navbar />
-    
+    <>    
       <Canvas>
       <Stars
         radius={300}
