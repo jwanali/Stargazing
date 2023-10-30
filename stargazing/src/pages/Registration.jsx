@@ -1,25 +1,56 @@
-import React from "react";
+import React, { useState} from "react";
 import  "../styles/Registration.css";
-export default function Registration() {
+export default function Registration(props) {
+
+  const [state,setState] = useState({username:"",email:"", password:"",confirmpassowrd:""})  
   return (
-    <form>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        props.onSignUp(state);
+      }}
+    >
       <div className="signup">
         <h1>Sign up</h1>
         <label>
           <p>username</p>
-          <input type="text" placeholder="Username"/>
+          <input
+            type="text"
+            placeholder="Username"
+            onChange={(e) => {
+              setState({ ...state, username: e.target.value });
+            }}
+          />
         </label>
         <label>
           <p>Email</p>
-          <input type="text" placeholder="Email"/>
+          <input
+            type="text"
+            placeholder="Email"
+            onChange={(e) => {
+              setState({ ...state, email: e.target.value });
+            }}
+          />
         </label>
         <label>
           <p>Password</p>
-          <input type="password" placeholder="Password" />
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={(e) => {
+              setState({ ...state, password: e.target.value });
+            }}
+          />
         </label>
         <label>
           <p>Confirm Password</p>
-          <input type="password" placeholder="Confirm Password" />
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            onChange={(e) => {
+              setState({ ...state, confirmpassowrd: e.target.value });
+            }}
+          />
         </label>
         <div>
           <button type="submit">Confirm</button>
