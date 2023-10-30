@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Scroll, useScroll } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
+import { useRef } from "react";
 import DateSelector from "./DateSelector";
-import ConfrimButton from "./ConfirmButton";
+import { Button, Space } from "antd";
+import  NightView  from "./NightView/index";
 
 import "./Overlay.css";
 
@@ -33,27 +35,41 @@ const Section2 = (props) => {
         opacity: props.opacity,
       }}
     >
-      <div className="w-1/2 flex items-center justify-center">
-          <div className="Section2-box">
-            {props.children}
-          </div>
-      </div>
+        <div className="Section2-box">{props.children}</div>
+
     </section>
   );
 };
 
-
-
+const Section3 = (props) => {
+  return (
+    <section
+      style={{
+        opacity: props.opacity,
+      }}
+    >
+        <div className="Section3-box">{props.children}</div>
+      
+    </section>
+  );
+};
 
 export function Overlay() {
   const scroll = useScroll();
   const [opacityFirstSection, setOpacityFirstSection] = useState(1);
   const [opacitySecondSection, setOpacitySecondSection] = useState(1);
+  const [opacityLastSection, setOpacityLastSection] = useState(1);
 
   useFrame(() => {
     setOpacityFirstSection(scroll.range(2 / 3, 1 / 3));
     setOpacitySecondSection(scroll.range(0, 1 / 3));
+    setOpacityLastSection(scroll.range(2 / 3, 1 / 3));
   });
+
+  const ref = useRef(null);
+  const handleClick = () => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <Scroll html>
@@ -71,9 +87,11 @@ export function Overlay() {
           <p className="mt-3">City:</p>
           <p className="mt-3">Date:</p>
           <DateSelector />
-          <p>   </p>
-          <ConfrimButton />
+          <p></p>
         </Section2>
+        <Section3 ref={ref} opacity={opacityLastSection}>
+          <NightView />
+        </Section3>
       </div>
     </Scroll>
   );
