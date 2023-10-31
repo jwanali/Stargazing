@@ -36,7 +36,7 @@ export function Earth({ scroll, ...props}) {
         intensity={1.2} 
       />
   
-      <mesh ref={cloudsRef} position={[2.5, 0.25, 2]}>
+      <mesh ref={cloudsRef} position={[0.5, 0.05, 3.225]}>
         <sphereGeometry args={[1.005, 33, 33]} />
         <meshPhongMaterial
           map={cloudsMap}
@@ -47,7 +47,7 @@ export function Earth({ scroll, ...props}) {
         />
       </mesh>
 
-      <mesh ref={earthRef} position={[2.5, 0.25, 2]}>
+      <mesh ref={earthRef} position={[0.5, 0.05, 3.225]}>
         <sphereGeometry args={[1, 33, 33]} />
         <meshPhongMaterial specularMap={specularMap} />
         <meshStandardMaterial
