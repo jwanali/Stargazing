@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Scroll, useScroll } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
-import DateSelector from "./DateSelector";
 import { Button, Space } from "antd";
-import  NightView  from "./NightView/index";
+import { RocketOutlined } from "@ant-design/icons";
+import DateSelector from "./DateSelector";
+import { Input } from "antd";
+import Events from "./Events";
 
 import "./Overlay.css";
 
@@ -35,8 +36,7 @@ const Section2 = (props) => {
         opacity: props.opacity,
       }}
     >
-        <div className="Section2-box">{props.children}</div>
-
+      <div className="Section2-box">{props.children}</div>
     </section>
   );
 };
@@ -48,28 +48,24 @@ const Section3 = (props) => {
         opacity: props.opacity,
       }}
     >
-        <div className="Section3-box">{props.children}</div>
-      
+      <div className="Section3-box">{props.children}</div>
     </section>
   );
 };
 
-export function Overlay() {
+export function Overlay(props) {
   const scroll = useScroll();
   const [opacityFirstSection, setOpacityFirstSection] = useState(1);
   const [opacitySecondSection, setOpacitySecondSection] = useState(1);
   const [opacityLastSection, setOpacityLastSection] = useState(1);
+
+  const [show, setShow] = useState(false);
 
   useFrame(() => {
     setOpacityFirstSection(scroll.range(2 / 3, 1 / 3));
     setOpacitySecondSection(scroll.range(0, 1 / 3));
     setOpacityLastSection(scroll.range(2 / 3, 1 / 3));
   });
-
-  const ref = useRef(null);
-  const handleClick = () => {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
-  };
 
   return (
     <Scroll html>
@@ -83,15 +79,25 @@ export function Overlay() {
           <h1 className="font-semibold font-serif text-2xl">
             What can I see in the sky tonight?
           </h1>
-          <p>Enter your date location</p>
+          <p>Enter the date and your location</p>
           <p className="mt-3">City:</p>
+          <Input
+            className="City-input"
+            type="text"
+            name="city"
+            placeholder="Enter your City"
+            id="user-location"
+          ></Input>
           <p className="mt-3">Date:</p>
           <DateSelector />
           <p></p>
+          <Space wrap>
+            <Button type="primary" onClick={() => setShow(!show)}>
+              Start Exploring {<RocketOutlined />}{" "}
+            </Button>
+          </Space>
         </Section2>
-        <Section3 ref={ref} opacity={opacityLastSection}>
-          <NightView />
-        </Section3>
+        <Events status={show} />
       </div>
     </Scroll>
   );
