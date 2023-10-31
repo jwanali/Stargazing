@@ -35,16 +35,9 @@ export function Earth({ scroll, ...props}) {
         position={[2, 0, 5]} 
         intensity={1.2} 
       />
-      {/* <Stars
-        radius={300}
-        depth={60}
-        count={20000}
-        factor={7}
-        saturation={0}
-        fade={true}
-      /> */}
-      <mesh ref={cloudsRef} position={[1, 0, 2]}>
-        <sphereGeometry args={[1.005, 32, 32]} />
+  
+      <mesh ref={cloudsRef} position={[0.5, 0.05, 3.225]}>
+        <sphereGeometry args={[1.005, 33, 33]} />
         <meshPhongMaterial
           map={cloudsMap}
           opacity={0.4}
@@ -54,8 +47,8 @@ export function Earth({ scroll, ...props}) {
         />
       </mesh>
 
-      <mesh ref={earthRef} position={[1, 0, 2]}>
-        <sphereGeometry args={[1, 32, 32]} />
+      <mesh ref={earthRef} position={[0.5, 0.05, 3.225]}>
+        <sphereGeometry args={[1, 33, 33]} />
         <meshPhongMaterial specularMap={specularMap} />
         <meshStandardMaterial
           map={colorMap}

@@ -14,6 +14,10 @@
   justify-content: center;
 }
 
+.City-input {
+  width: 250px;
+}
+
 
 
 
@@ -80,7 +84,6 @@ button:hover {
 
 .Section2-box {
   background-color: #001529;
-  max-width: 20em;
   max-height: 35em;
   padding-left: 2em;
   padding-right: 2em;
@@ -91,4 +94,9 @@ button:hover {
   margin-top: 30em;
   margin-top: 25em;
 
+}
+
+.events-section {
+  width:100%;
+  
 }

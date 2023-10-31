@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Scroll, useScroll } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
+import { Button, Space } from "antd";
+import { RocketOutlined } from "@ant-design/icons";
 import DateSelector from "./DateSelector";
-import ConfrimButton from "./ConfirmButton";
+import { Input } from "antd";
+import Events from "./Events";
 
 import "./Overlay.css";
 
@@ -33,26 +36,35 @@ const Section2 = (props) => {
         opacity: props.opacity,
       }}
     >
-      <div className="w-1/2 flex items-center justify-center">
-          <div className="Section2-box">
-            {props.children}
-          </div>
-      </div>
+      <div className="Section2-box">{props.children}</div>
     </section>
   );
 };
 
+const Section3 = (props) => {
+  return (
+    <section
+      style={{
+        opacity: props.opacity,
+      }}
+    >
+      <div className="Section3-box">{props.children}</div>
+    </section>
+  );
+};
 
-
-
-export function Overlay() {
+export function Overlay(props) {
   const scroll = useScroll();
   const [opacityFirstSection, setOpacityFirstSection] = useState(1);
   const [opacitySecondSection, setOpacitySecondSection] = useState(1);
+  const [opacityLastSection, setOpacityLastSection] = useState(1);
+
+  const [show, setShow] = useState(false);
 
   useFrame(() => {
     setOpacityFirstSection(scroll.range(2 / 3, 1 / 3));
     setOpacitySecondSection(scroll.range(0, 1 / 3));
+    setOpacityLastSection(scroll.range(2 / 3, 1 / 3));
   });
 
   return (
@@ -67,13 +79,25 @@ export function Overlay() {
           <h1 className="font-semibold font-serif text-2xl">
             What can I see in the sky tonight?
           </h1>
-          <p>Enter your date location</p>
+          <p>Enter the date and your location</p>
           <p className="mt-3">City:</p>
+          <Input
+            className="City-input"
+            type="text"
+            name="city"
+            placeholder="Enter your City"
+            id="user-location"
+          ></Input>
           <p className="mt-3">Date:</p>
           <DateSelector />
-          <p>   </p>
-          <ConfrimButton />
+          <p></p>
+          <Space wrap>
+            <Button type="primary" onClick={() => setShow(!show)}>
+              Start Exploring {<RocketOutlined />}{" "}
+            </Button>
+          </Space>
         </Section2>
+        <Events status={show} />
       </div>
     </Scroll>
   );

@@ -1,0 +1,20 @@
+.box{
+  width: 90vw;
+  height: 85vh;
+  margin-top: 10em;
+  margin-left: 5em;
+  margin-right: 5em;
+}
+
+.events-menu {
+  max-width: 65%;
+  height: 400px;
+}
+
+.event-header {
+  padding-top:35px;
+  display: flex;
+  justify-content: center;
+  font-size: 45px;
+  ;
+}
