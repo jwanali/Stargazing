@@ -70,6 +70,7 @@ res.status(500).send('Internal Server Error');
 
 });
 server.get('/users', (req,res) => {
+ 
   db.query('SELECT * FROM users')
     .then((data) => {
       // Send the retrieved data as a JSON response
@@ -93,7 +94,7 @@ server.get("/sign_up", (req,res) => {
   };
   */
   const user = {
-   email :'jwan@example.1com',
+   email :'jwan111@example.1com',
    password : 'password',
    name : 'jwan',
    password_confirmation : 'password',
@@ -176,8 +177,10 @@ const weather_info = function(body) {
   
     
    })
-
-
+const availableRouts = "<div>";
+server.get('/', (req,res) => {
+  res.send('Stargazin')
+})
 
 server.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
