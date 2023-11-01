@@ -1,17 +1,16 @@
 require("dotenv").config();
-const {
-  getUserByEmail,
-  generateRandomString,
-  create_new_user,
-} = require("./helpers");
+
 const db = require("./db/connection");
 const request = require("request-promise-native");
 const express = require("express");
 const cookieSession = require("cookie-session");
 const bcrypt = require("bcryptjs");
 const server = express();
+const bodyParser = require("body-parser");
+const database = require("./db/database");
+const { array } = require("prop-types");
 
-
+server.use(bodyParser.json());
 server.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*"); // Change '*' to a specific domain if needed
   res.setHeader(
@@ -20,7 +19,8 @@ server.use((req, res, next) => {
   );
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   next();
-}); 
+});
+
 
 const PORT = 8080;
 server.use(
@@ -46,33 +46,34 @@ server.get("/events", (req, res) => {
     });
 });
 
-server.get("/login", (req, res) => {
-  // const email = req.body.email;
-  // const password = req.body.password;
-  const email = "sebastianguerra@ymail.com";
-  const password = "password";
+server.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
 
   if (!email || !password) {
     // checking if email and password is valid or not
     return res.status(400).send("please input valid email and password");
   }
-  const values = [email];
+  const values = [email, password];
   const query = `
   SELECT DISTINCT users.name as user, users.email as email,users.id as id, users.password as password
   FROM users
    
-  WHERE users.email = $1
+  WHERE users.email = $1 and password =$2
 `;
 
   db.query(query, values)
     .then((result) => {
       if (result.rows.length === 0) {
-        // User not found or incorrect credentials
-        res.status(401).send("sorry Invalid eamil");
-      } else if (result.rows[0].password != password) {
-        res.status(401).send("sorry wrong  password ");
+        // User not found or incorrect credentials//
+        res
+          .status(401)
+          .send(
+            "Email or Password might be wrong. Please check and retry again"
+          );
       } else {
-        res.json(result.rows);
+        // we need redirect to home page
+        res.json(result.rows.length);
       }
     })
     .catch((err) => {
@@ -95,16 +96,12 @@ server.get("/users", (req, res) => {
 });
 
 server.post("/sign_up", (req, res) => {
-    console.log("******req.body*******",req.body);
-
-    const user = {
-    email : req.body.email,
-    password : req.body.password,
-    name : req.body.firstName,
-    password_confirmation : req.body.password_confirmation,
-    };
-  
- 
+  const user = {
+    email: req.body.email,
+    password: req.body.password,
+    name: req.body.name,
+    password_confirmation: req.body.password_confirmation,
+  };
 
   if (
     !user.email ||
@@ -116,45 +113,21 @@ server.post("/sign_up", (req, res) => {
       .status(400)
       .send("please input valid email and password should match");
   }
-  const values = [user.email];
-  const query = `
-  SELECT DISTINCT users.name as user, users.email as email,users.id as id, users.password as password
-  FROM users
-   
-  WHERE users.email = $1
-`;
-
-  db.query(query, values)
-    .then((result) => {
-      if (result.rows.length === 0) {
-        const values = [user.name, user.email, user.password];
-        const query2 = `INSERT INTO users (name , email, password )
-  VALUES ($1, $2, $3);`;
-        db.query(query2, values)
-          .then((data) => {
-            db.query("SELECT * FROM users")
-              .then((data) => {
-                // Send the retrieved data as a JSON response
-                console.log('Data from the "users" table:', data.rows);
-                res.json(data.rows[data.rows.length - 1]);
-              })
-              .catch((err) => {
-                console.error("Error:", err);
-                res.status(500).json({ error: "An error occurred" });
-              });
-          })
-          .catch((err) => {
-            console.log(err.message);
-            res.status(500).send("Internal Server Error");
-          });
-      } else {
-        res.status(401).send("sorry this user already exist ");
+  //check if the user already signup
+  database.getUserWithEmail(user.email).then((users) => {
+    console.log(users);
+    if (!users) {
+      return res.send({
+        error: "A registration with this email already exist",
+      });
+    }
+    //register new users
+    database.signupUsers(user).then((result) => {
+      if (result) {
+        return res.status(201).send("User has been registered Successfully");
       }
-    })
-    .catch((err) => {
-      console.log(err.message);
-      res.status(500).send("Internal Server Error");
     });
+  });
 });
 
 server.get("/api/weather", (req, res) => {

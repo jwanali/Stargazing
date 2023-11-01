@@ -2,7 +2,12 @@ import React, { useState} from "react";
 import  "../styles/Registration.css";
 export default function Registration(props) {
 
-  const [state,setState] = useState({username:"",email:"", password:"",confirmpassowrd:""})  
+  const [state, setState] = useState({
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+  });  
   return (
     <form
       onSubmit={(e) => {
@@ -18,7 +23,7 @@ export default function Registration(props) {
             type="text"
             placeholder="Username"
             onChange={(e) => {
-              setState({ ...state, username: e.target.value });
+              setState({ ...state, name: e.target.value });
             }}
           />
         </label>
@@ -48,7 +53,7 @@ export default function Registration(props) {
             type="password"
             placeholder="Confirm Password"
             onChange={(e) => {
-              setState({ ...state, confirmpassowrd: e.target.value });
+              setState({ ...state, password_confirmation: e.target.value });
             }}
           />
         </label>

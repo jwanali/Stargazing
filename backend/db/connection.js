@@ -10,7 +10,9 @@ const dbParams = {
 };
 
 const db = new Pool(dbParams);
-console.log(process.env);
-db.connect();
 
-module.exports = db;
+const query = function (text, params, callback) {
+  return db.query(text, params, callback);
+};
+
+module.exports = { query };
