@@ -1,5 +1,5 @@
 import {useReducer, useEffect,useState} from "react";
-const axios = require('axios');
+
 const reducers = {
   SET_WEATHER_DATA(state,action) {
     return {...state,weatherData: action.value}
