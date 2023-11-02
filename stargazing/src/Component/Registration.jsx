@@ -1,5 +1,6 @@
 import React, { useState} from "react";
 import  "../styles/Registration.css";
+import Alert from "./Alert";
 export default function Registration(props) {
 
   const [state, setState] = useState({
@@ -15,6 +16,9 @@ export default function Registration(props) {
         props.onSignUp(state);
       }}
     >
+      {props.message && (
+        <Alert message={props.message} messageType={props.messageType} />
+      )}
       <div className="signup">
         <h1>Sign up</h1>
         <label>

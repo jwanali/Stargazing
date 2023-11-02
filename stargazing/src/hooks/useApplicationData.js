@@ -1,14 +1,18 @@
 import { useReducer } from "react";
-
+import Alert from "../Component/Alert";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 export const ACTIONS = {
   USER_LOGIN: "USER_LOGIN",
   USER_SIGNUP: "USER_SIGNUP"
 };
 
  const reducer = (state, action) => {
+  
    switch (action.type) {
     case ACTIONS.USER_SIGNUP: 
-    return { ...state, photoData: action.payload };
+    
+    return { ...state, message: action.payload, messageType: action.messageType };    
     case ACTIONS.USER_LOGIN:
       return {...state,photoData: action.payload}
    }
@@ -33,23 +37,15 @@ export default function useApplicationData(initial) {
    body: JSON.stringify(data),
  };
 
-
-
-
-
   fetch(`http://localhost:8080/sign_up`,options)
       .then((res) => {
-        
-        if (!res.ok){
-          return res.text().then((text)=>{
-              throw new Error(text);
-          })        
-        }
-        return  res.json()
+               
+        return  res.json();
       })
       .then((data) => {
-        console.log(data);
-        dispatch({ type: ACTIONS.USER_SIGNUP, payload: data })}
+        
+        dispatch({ type: ACTIONS.USER_SIGNUP, payload: data.message , messageType:"success"})}
+        
       )
       .catch(err=> alert("An error Occured."  + err))
   };
@@ -76,11 +72,14 @@ export default function useApplicationData(initial) {
         .then((data) => dispatch({ type: ACTIONS.USER_LOGIN, payload: data }))
         .catch((err) => alert("An error Occured." + err));
     };
-
+const message = state.message;
+const messageType = state.messageType;
 
   return {
     onSignUp,
     onLogin,
+    message,
+    messageType
   };
 
 }

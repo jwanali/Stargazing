@@ -124,7 +124,8 @@ server.post("/sign_up", (req, res) => {
     //register new users
     database.signupUsers(user).then((result) => {
       if (result) {
-        return res.status(201).send("User has been registered Successfully");
+        const msg = {message:"User has been registered Successfully"};
+        return res.status(201).json(msg);
       }
     });
   });

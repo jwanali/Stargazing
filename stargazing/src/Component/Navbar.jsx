@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function Navbar() {
   return (
     <nav>
@@ -9,7 +9,7 @@ function Navbar() {
         {" "}
         <li>
           {" "}
-          <Link to="/">Home</Link>{" "}
+          <Link to="/"></Link>{" "}
         </li>{" "}
         <li>
           {" "}
