@@ -5,11 +5,13 @@ import { Suspense } from "react";
 import { Experience } from "./components/Experience";
 import StarsBackground from "./components/StarsBackground";
 import Navbar from "./components/Navbar";
+import Weather from "./components/Weather";
 
 function App() {
   return (
     <>
       <Navbar />
+    
       <Canvas>
       <StarsBackground />
         <Suspense fallback={null}>
