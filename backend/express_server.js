@@ -33,7 +33,10 @@ server.use(
 );
 
 server.get("/events", (req, res) => {
-  db.query("SELECT * FROM events")
+  /*
+  const event_name = req.body.catgory
+  */
+  db.query("SELECT * FROM events WHERE event_name = $1 ORDER BY date",['stargazing Campout22444'])
     .then((data) => {
       const message = {
         message: data.rows
@@ -51,7 +54,11 @@ server.get("/events", (req, res) => {
       res.status(500).json(error);
     });
 });
+
 server.get("/add_event", (req,res) =>{
+   
+   
+  // const event = req.body.event;
   const event = {
     event_name: 'stargazing Campout22444',
     date: '2023-12-05',
@@ -81,6 +88,7 @@ server.get("/add_event", (req,res) =>{
     });
 
 })
+server
 
 server.get("/login", (req, res) => {
   const email = req.body.email;
