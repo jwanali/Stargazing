@@ -15,7 +15,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/weather" element={<Weather />} />
-          {/* Add other routes for your application */}
+          {/* Add other routes(Home, Saved, ..) for  application */}
         </Routes>
       </div>
       <Canvas>
