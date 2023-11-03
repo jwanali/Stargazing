@@ -1,11 +1,12 @@
-import {useReducer, useEffect} from "react";
+import {useReducer, useEffect,useState} from "react";
+
 const reducers = {
   SET_WEATHER_DATA(state,action) {
     return {...state,weatherData: action.value}
   },
-  set_show_weather(state,action) {
-    return {...state,show_weather: action.value}
-  },
+  // set_show_weather(state,action) {
+  //   return {...state,show_weather: action.value}
+  // },
   setSidePeek(state,action) {
     return {...state, sidePeek: action.value};
   }
@@ -16,15 +17,15 @@ const reducer = function (state, action) {
   } else return state;
 }
 
-export default function Weather_api () {
+export default  function Weather_api () {
   const [state, dispatch] = useReducer(reducer, {sidePeek: false, show_weather:'show weather' ,weatherData: {}});
   const setSidePeek = function (updatedSidePeek) {
     dispatch({type: 'setSidePeek',value: updatedSidePeek})
   };
-  const set_show_weather = function() {
-    dispatch({type:'set_show_weather', value:'hide weahter'})
+  // const set_show_weather = function() {
+  //   dispatch({type:'set_show_weather', value:'hide weahter'})
     
-  }
+  // }
   const SET_WEATHER_DATA = function() {
      
     
@@ -42,13 +43,26 @@ export default function Weather_api () {
       console.error('Error:', error);
     })
   }
+  /*
+  const [users, setUsers] = useState('')
+  const  setLogin = async function() {
+    await fetch("http://localhost:8080/login",{mode: 'no-cors'})
+    .then ((response) => response.json() )
+    .then((data) => setUsers(data))
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  } */
     return {
+      // setLogin:setLogin,
       weather : state.weatherData,
       SET_WEATHER_DATA,
       setSidePeek,
       sidePeek: state.sidePeek,
       show_weather: state.show_weather,
-      set_show_weather
+      // set_show_weather,
+      // users,
+      // setUsers
 
     }
     
