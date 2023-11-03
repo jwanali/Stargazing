@@ -24,9 +24,25 @@ const getUserWithEmail = function (id) {
       console.log(err.message);
     });
 };
+const add_event = function (event) {
+  return db
+    .query(
+      `INSERT INTO events (event_name, date, description)
+      VALUES 
+      ($1,$2,$3)`,
+      [event.event_name, event.date, event.description]
+    )
+    .then((result) => {
+     console.log('event added');
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
 
 
 module.exports = {
   signupUsers,
   getUserWithEmail,
+  add_event
 };

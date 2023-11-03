@@ -21,7 +21,6 @@ server.use((req, res, next) => {
   next();
 });
 
-
 const PORT = 8080;
 server.use(
   cookieSession({
@@ -33,26 +32,73 @@ server.use(
 );
 
 server.get("/events", (req, res) => {
-  db.query("SELECT * FROM events")
+  /*
+  const event_name = req.body.catgory
+  */
+  db.query("SELECT * FROM events WHERE event_name = $1 ORDER BY date", [
+    "stargazing Campout22444",
+  ])
     .then((data) => {
+      const message = {
+        message: data.rows,
+      };
       // Send the retrieved data as a JSON response
-      res.json(data.rows);
+      res.json(message);
 
-      console.log('Data from the "users" table:', data.rows);
+      console.log('Data from the "events" table:', data.rows);
     })
     .catch((err) => {
-      console.error("Error:", error);
-      res.status(500).json({ error: "An error occurred" });
+      const error = {
+        err: err,
+      };
+
+      res.status(500).json(error);
     });
 });
 
-server.post("/login", (req, res) => {
+server.get("/add_event", (req, res) => {
+  // const event = req.body.event;
+  const event = {
+    event_name: "stargazing Campout22444",
+    date: "2023-12-05",
+    description:
+      "Experience a magical night of camping and stargazing under the stars.",
+  };
+  /*
+   const event = {
+    event_name: req.body.event_name,
+    date: req.body.date,
+    description: req.body.description
+  };
+  
+  */
+  database
+    .add_event(event)
+    .then((result) => {
+      const message = {
+        message: "Event has been added Successfully",
+      };
+      res.status(201).json(message);
+    })
+    .catch((err) => {
+      const error = {
+        error: err,
+      };
+      res.status(500).json(error);
+    });
+});
+server;
+
+server.get("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-
+  const message = {
+    message: "please input valid email and password",
+  };
   if (!email || !password) {
     // checking if email and password is valid or not
-    return res.status(400).send("please input valid email and password");
+
+    return res.status(400).json(message);
   }
   const values = [email, password];
   const query = `
@@ -66,19 +112,22 @@ server.post("/login", (req, res) => {
     .then((result) => {
       if (result.rows.length === 0) {
         // User not found or incorrect credentials//
-        res
-          .status(401)
-          .send(
-            "Email or Password might be wrong. Please check and retry again"
-          );
+        const message = {
+          message:
+            "Email or Password might be wrong. Please check and retry again",
+        };
+        res.status(401).json(message);
       } else {
         // we need redirect to home page
+
         res.json(result.rows.length);
       }
     })
     .catch((err) => {
-      console.log(err.message);
-      res.status(500).send("Internal Server Error");
+      const error = {
+        error: err,
+      };
+      res.status(500).json(error);
     });
 });
 server.get("/users", (req, res) => {
@@ -90,8 +139,10 @@ server.get("/users", (req, res) => {
       console.log('Data from the "users" table:', data.rows);
     })
     .catch((err) => {
-      console.error("Error:", err);
-      res.status(500).json({ error: "An error occurred" });
+      const error = {
+        error: err,
+      };
+      res.status(500).json(error);
     });
 });
 
@@ -109,9 +160,10 @@ server.post("/sign_up", (req, res) => {
     user.password != user.password_confirmation
   ) {
     // checking if email and password is valid or not
-    return res
-      .status(400)
-      .send("please input valid email and password should match");
+    const error = {
+      error: "please input valid email and password should match",
+    };
+    return res.status(400).json(error);
   }
   //check if the user already signup
   database.getUserWithEmail(user.email).then((users) => {
@@ -124,8 +176,10 @@ server.post("/sign_up", (req, res) => {
     //register new users
     database.signupUsers(user).then((result) => {
       if (result) {
-        const msg = {message:"User has been registered Successfully"};
-        return res.status(201).json(msg);
+        const message = {
+          message: "User has been registered Successfully",
+        };
+        return res.status(201).json(message);
       }
     });
   });
@@ -156,7 +210,7 @@ server.get("/api/weather", (req, res) => {
       console.log(JSON.parse(data));
       //console.log(data)
 
-      res.send(data);
+      res.json(data);
     });
 });
 
