@@ -3,7 +3,8 @@ import React from "react";
 
 export const ACTIONS = {
   USER_LOGIN: "USER_LOGIN",
-  USER_SIGNUP: "USER_SIGNUP"
+  USER_SIGNUP: "USER_SIGNUP",
+  SAVE_EVENT: "SAVE_EVENT"
 };
 
  const reducer = (state, action) => {
@@ -24,6 +25,31 @@ export default function useApplicationData(initial) {
  
  
  const [state, dispatch] = useReducer(reducer, initial);
+
+ const onCreateEvent = (data) => {
+  const options = {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  fetch(`http://localhost:8080/add_event`,options)
+      .then((res) => {
+               
+        return  res.json();
+      })
+      .then((data) => {
+        
+        dispatch({ type: ACTIONS.SAVE_EVENT, payload: data.message , messageType:"success"})}
+        
+      )
+      .catch(err=> alert("An error Occured."  + err))
+  };
+
+ }
  const onSignUp = (data) => {
  
  
@@ -78,7 +104,8 @@ const messageType = state.messageType;
     onSignUp,
     onLogin,
     message,
-    messageType
+    messageType,
+    onCreateEvent
   };
 
 }
