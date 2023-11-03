@@ -13,29 +13,27 @@ import { Experience } from "./components/Experience";
 import StarsBackground from "./components/StarsBackground";
 import Navbar from "./components/Navbar";
 
-//function App() {
-  //const {onSignUp, onLogin, message, messageType} = useApplicationData({},{},"","");
-  // return (
-  //   <BrowserRouter>
-  //     {" "}
-  //     <Routes>
-  //       {" "}
-  //       <Route path="/" element={<Layout />}>
-  //         {" "}
-  //         <Route index element={"/"} />{" "}
-  //         <Route path="login" element={<Login onLogin={onLogin} />} />{" "}
-  //         <Route
-  //           path="registration"
-  //           element={<Registration onSignUp={onSignUp} message={message} messageType={messageType}/>}
-  //         />{" "}          
+// function App() {
+//   const {onSignUp, onLogin, message, messageType} = useApplicationData({},{},"","");
+//   return (
+//     <BrowserRouter>
+//       {" "}
+//       <Routes>
+//         {" "}
+//         <Route path="/" element={<Layout />}>
+//           {" "}
+//           <Route index element={"/"} />{" "}
+//           <Route path="login" element={<Login onLogin={onLogin} />} />{" "}
+//           <Route
+//             path="registration"
+//             element={<Registration onSignUp={onSignUp} message={message} messageType={messageType}/>}
+//           />{" "}          
           
-  //       </Route>{" "}
-  //     </Routes>{" "}
-  //   </BrowserRouter>
-  //);
-
-
-
+//         </Route>{" "}
+//       </Routes>{" "}
+//     </BrowserRouter>
+//   );
+//   }
 
 function App() {
   return (
