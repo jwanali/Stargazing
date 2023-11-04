@@ -37,21 +37,21 @@ import Navbar from "./components/Navbar";
 
 
 
-function App() {
-  return (
-    <>
-      <Navbar />
-      <Canvas>
-      <StarsBackground />
-        <Suspense fallback={null}>
-          <Experience />
-        </Suspense>
-      </Canvas>
-    </>
-  );
-}
+// function App() {
+//   return (
+//     <>
+//       <Navbar />
+//       <Canvas>
+//       <StarsBackground />
+//         <Suspense fallback={null}>
+//           <Experience />
+//         </Suspense>
+//       </Canvas>
+//     </>
+//   );
+// }
 
-export default App;
+// export default App;
 
   
 

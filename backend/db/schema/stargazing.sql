@@ -25,7 +25,7 @@ VALUES
 INSERT INTO events_locations (event_id, location_id)
 VALUES
 (1,1),
-(2,2),
+(2,2),npm 
 (3,3);
 
 INSERT INTO users_locations (user_id, location_id)
