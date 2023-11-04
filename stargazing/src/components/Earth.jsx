@@ -9,8 +9,7 @@ import EarthNormMap from "./assets/8k_earth_normal_map.jpg";
 import EarthSpecMap from "./assets/8k_earth_specular_map.jpg";
 import { TextureLoader } from "three";
 
-export function Earth({ scroll, ...props}) {
-
+export function Earth({ scroll, ...props }) {
   const [colorMap, normalMap, specularMap, cloudsMap] = useLoader(
     TextureLoader,
     [EarthDayMap, EarthNormMap, EarthSpecMap, EarthCloudMap]
@@ -26,16 +25,11 @@ export function Earth({ scroll, ...props}) {
     cloudsRef.current.rotation.y = elapsedTime / 6;
   });
 
-
   return (
     <>
       {<ambientLight intensity={2.2} />}
-      <pointLight 
-        color="#f6f3ea" 
-        position={[2, 0, 5]} 
-        intensity={1.2} 
-      />
-  
+      <pointLight color="#f6f3ea" position={[2, 0, 5]} intensity={1.2} />
+
       <mesh ref={cloudsRef} position={[0.5, 0.05, 3.225]}>
         <sphereGeometry args={[1.005, 33, 33]} />
         <meshPhongMaterial

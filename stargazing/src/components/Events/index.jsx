@@ -7,10 +7,8 @@ import Weather_api from "../../hook/weather_api";
 import Weather from "../Weather";
 import { useState } from "react";
 
-
 export default function Events(props) {
   const { Content, Sider } = Layout;
-  
 
   return (
     <div
@@ -99,9 +97,7 @@ export default function Events(props) {
           </Content>
         </Layout>
       </div>
-      <div className="weather-container">
-
-      </div>
+      <div className="weather-container"></div>
     </div>
   );
 }

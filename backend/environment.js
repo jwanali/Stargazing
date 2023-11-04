@@ -1,5 +1,5 @@
 const path = require("path");
-require('dotenv').config();
+require("dotenv").config();
 
 const ENV = process.env.NODE_ENV || "labber";
 const PATH = path.resolve(__dirname, `./.env.${ENV}`);

@@ -21,7 +21,6 @@ server.use((req, res, next) => {
   next();
 });
 
-
 const PORT = 8080;
 server.use(
   cookieSession({
@@ -36,11 +35,13 @@ server.get("/events", (req, res) => {
   /*
   const event_name = req.body.catgory
   */
-  db.query("SELECT * FROM events WHERE event_name = $1 ORDER BY date",['stargazing Campout22444'])
+  db.query("SELECT * FROM events WHERE event_name = $1 ORDER BY date", [
+    "stargazing Campout22444",
+  ])
     .then((data) => {
       const message = {
-        message: data.rows
-      }
+        message: data.rows,
+      };
       // Send the retrieved data as a JSON response
       res.json(message);
 
@@ -48,21 +49,20 @@ server.get("/events", (req, res) => {
     })
     .catch((err) => {
       const error = {
-        err: err
-      }
-  
+        err: err,
+      };
+
       res.status(500).json(error);
     });
 });
 
-server.get("/add_event", (req,res) =>{
-   
-   
+server.get("/add_event", (req, res) => {
   // const event = req.body.event;
   const event = {
-    event_name: 'stargazing Campout22444',
-    date: '2023-12-05',
-    description: "Experience a magical night of camping and stargazing under the stars."
+    event_name: "stargazing Campout22444",
+    date: "2023-12-05",
+    description:
+      "Experience a magical night of camping and stargazing under the stars.",
   };
   /*
    const event = {
@@ -72,30 +72,29 @@ server.get("/add_event", (req,res) =>{
   };
   
   */
-  database.add_event(event)
+  database
+    .add_event(event)
     .then((result) => {
-        const message = {
-          message: "Event has been added Successfully"
-        }
-        res.status(201).json(message);
-      
+      const message = {
+        message: "Event has been added Successfully",
+      };
+      res.status(201).json(message);
     })
     .catch((err) => {
       const error = {
-        error: err
-      }
+        error: err,
+      };
       res.status(500).json(error);
     });
-
-})
-server
+});
+server;
 
 server.get("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const message = {
-    message:"please input valid email and password"
-  }
+    message: "please input valid email and password",
+  };
   if (!email || !password) {
     // checking if email and password is valid or not
 
@@ -114,19 +113,20 @@ server.get("/login", (req, res) => {
       if (result.rows.length === 0) {
         // User not found or incorrect credentials//
         const message = {
-          message:  "Email or Password might be wrong. Please check and retry again"
-        }
+          message:
+            "Email or Password might be wrong. Please check and retry again",
+        };
         res.status(401).json(message);
       } else {
         // we need redirect to home page
-        
+
         res.json(result.rows.length);
       }
     })
     .catch((err) => {
       const error = {
-        error:err
-      }
+        error: err,
+      };
       res.status(500).json(error);
     });
 });
@@ -140,8 +140,8 @@ server.get("/users", (req, res) => {
     })
     .catch((err) => {
       const error = {
-        error: err
-      }
+        error: err,
+      };
       res.status(500).json(error);
     });
 });
@@ -161,8 +161,8 @@ server.post("/sign_up", (req, res) => {
   ) {
     // checking if email and password is valid or not
     const error = {
-      error: "please input valid email and password should match" 
-    }
+      error: "please input valid email and password should match",
+    };
     return res.status(400).json(error);
   }
   //check if the user already signup
@@ -177,8 +177,8 @@ server.post("/sign_up", (req, res) => {
     database.signupUsers(user).then((result) => {
       if (result) {
         const message = {
-          message:  "User has been registered Successfully"
-        }
+          message: "User has been registered Successfully",
+        };
         return res.status(201).json(message);
       }
     });

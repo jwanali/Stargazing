@@ -2,6 +2,7 @@ import { OrbitControls, ScrollControls } from "@react-three/drei";
 import { Earth } from "./Earth";
 import { Overlay } from "./Overlay";
 import Events from "./Events";
+import React from "react";
 
 export function Experience() {
   return (
@@ -12,7 +13,6 @@ export function Experience() {
         <Overlay />
         <Earth />
       </ScrollControls>
-   
     </>
   );
 }
