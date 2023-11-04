@@ -12,6 +12,7 @@ import { Suspense } from "react";
 import { Experience } from "./components/Experience";
 import StarsBackground from "./components/StarsBackground";
 import Navbar from "./components/Navbar";
+import Event from "./components/Event";
 
 // function App() {
 //   const {onSignUp, onLogin, message, messageType} = useApplicationData({},{},"","");
@@ -36,11 +37,13 @@ import Navbar from "./components/Navbar";
 //   }
 
 function App() {
+ 
   return (
     <>
       <Navbar />
+      
       <Canvas>
-      <StarsBackground />
+        <StarsBackground />
         <Suspense fallback={null}>
           <Experience />
         </Suspense>
