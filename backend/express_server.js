@@ -64,7 +64,7 @@ server.get("/add_event", (req, res) => {
   //   description:
   //     "Experience a magical night of camping and stargazing under the stars.",
   // };
-  
+   
    const event = {
     event_name: req.body.event_name,
     date: req.body.date,
