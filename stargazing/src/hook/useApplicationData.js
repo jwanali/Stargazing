@@ -10,6 +10,8 @@ export const ACTIONS = {
  const reducer = (state, action) => {
   
    switch (action.type) {
+    case ACTIONS.SAVE_EVENT:
+      return {...state,message:action.payload,messageType:action.messageType}
     case ACTIONS.USER_SIGNUP: 
     
     return { ...state, message: action.payload, messageType: action.messageType };    
@@ -33,7 +35,7 @@ export default function useApplicationData(initial) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+     body: JSON.stringify(data),
   };
 
   fetch(`http://localhost:8080/add_event`,options)
@@ -41,15 +43,19 @@ export default function useApplicationData(initial) {
                
         return  res.json();
       })
-      .then((data) => {
+      .then((result) => {
         
-        dispatch({ type: ACTIONS.SAVE_EVENT, payload: data.message , messageType:"success"})}
+        dispatch({
+          type: ACTIONS.SAVE_EVENT,
+          payload: result.message || result.error,
+          messageType: result.message ? "success":"error", 
+        });}
         
       )
       .catch(err=> alert("An error Occured."  + err))
   };
 
- }
+ 
  const onSignUp = (data) => {
  
  

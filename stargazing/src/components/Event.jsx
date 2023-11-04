@@ -1,7 +1,20 @@
 import React, { useState } from "react";
+import Alert from "./Alert";
 
+//  const { onSignUp, onLogin, message, messageType, onCreateEvent } =
+//    useApplicationData({}, {}, "", "");
+//  <Event
+//    onCreateEvent={onCreateEvent}
+//    message={message}
+//    messageType={messageType}
+//  />;
 export default function Event(props){
-    
+    const [state, setState] = useState({
+      event_name: "",
+      date: "1900-01-01",
+      description: "",
+    });  
+  return (
 <form
       onSubmit={(e) => {
         e.preventDefault();
@@ -9,7 +22,7 @@ export default function Event(props){
       }}
     >
       {props.message && (
-        <Alert message={props.message} messageType={props.messageType} />
+        <Alert message={props.message} type={props.messageType} />
       )}
       <div className="signup">
         <h1>Save Event</h1>
@@ -19,27 +32,27 @@ export default function Event(props){
             type="text"
             placeholder="Event"
             onChange={(e) => {
-              setState({ ...state, event: e.target.value });
+              setState({ ...state, event_name: e.target.value });
             }}
           />
         </label>
         <label>
-          <p>Email</p>
+          <p></p>
           <input
             type="text"
             placeholder="Date"
             onChange={(e) => {
-              setState({ ...state, Date: e.target.value });
+              setState({ ...state, date: e.target.value });
             }}
           />
         </label>
         <label>
-          <p>Password</p>
+          <p></p>
           <input
-            type="password"
+            type="text"
             placeholder="Description"
             onChange={(e) => {
-              setState({ ...state, Description: e.target.value });
+              setState({ ...state, description: e.target.value });
             }}
           />
         </label>
@@ -50,4 +63,5 @@ export default function Event(props){
       </div>
     </form>
   );
+  
 }
