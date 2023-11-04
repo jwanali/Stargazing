@@ -8,14 +8,17 @@ import { Experience } from "./components/Experience";
 import StarsBackground from "./components/StarsBackground";
 import Navbar from "./components/Navbar/index";
 import Weather from "./components/Weather";
+import Registration from "./components/Registration";
 
 function App() {
+  const {onSignUp, onLogin, message, messageType} = useApplicationData({},{},"","");
   return (
     <Router>
       <div>
         <Navbar />
         <Routes>
           <Route path="/weather" element={<Weather />} />
+          <Route path="/signup" element={<Registration onSignUp={onSignUp} message={message} messageType={messageType}/>}/>
           {/* Add other routes(Home, Saved, ..) for  application */}
         </Routes>
       </div>

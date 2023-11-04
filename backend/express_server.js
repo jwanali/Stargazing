@@ -30,14 +30,11 @@ server.use(
     //maxAge: 24 * 60 * 60 * 1000 expire 24 hours
   })
 );
-
 server.get("/events", (req, res) => {
-  /*
-  const event_name = req.body.catgory
-  */
-  db.query("SELECT * FROM events WHERE event_name = $1 ORDER BY date", [
-    "stargazing Campout22444",
-  ])
+  
+  
+  
+  db.query("SELECT * FROM events")
     .then((data) => {
       const message = {
         message: data.rows,
@@ -56,25 +53,50 @@ server.get("/events", (req, res) => {
     });
 });
 
-server.get("/add_event", (req, res) => {
+// server.get("/events/:category", (req, res) => {
+  
+//   const event_name = req.params.category
+//   console.log(event_name,1)
+  
+//   db.query("SELECT * FROM events WHERE event_name = $1 ORDER BY date",[event_name])
+//     .then((data) => {
+//       const message = {
+//         message: data.rows,
+//       };
+//       // Send the retrieved data as a JSON response
+//       res.json(message);
+
+//       console.log('Data from the "events" table:', data.rows);
+//     })
+//     .catch((err) => {
+//       const error = {
+//         err: err,
+//       };
+
+//       res.status(500).json(error);
+//     });
+// });
+
+server.post("/events/add_event", (req, res) => {
   // const event = req.body.event;
-  const event = {
-    event_name: "stargazing Campout22444",
-    date: "2023-12-05",
-    description:
-      "Experience a magical night of camping and stargazing under the stars.",
-  };
-  /*
+  // const event = {
+  //   event_name: "stargazing Campout22444",
+  //   date: "2023-12-05",
+  //   description:
+  //     "Experience a magical night of camping and stargazing under the stars.",
+  // };
+  
    const event = {
     event_name: req.body.event_name,
     date: req.body.date,
     description: req.body.description
   };
   
-  */
+  
   database
     .add_event(event)
     .then((result) => {
+      console.log(result)
       const message = {
         message: "Event has been added Successfully",
       };
@@ -87,7 +109,81 @@ server.get("/add_event", (req, res) => {
       res.status(500).json(error);
     });
 });
-server;
+
+server.get("/events/:id", (req, res) => {
+  const event_id = req.params.id;
+  console.log(event_id)
+  
+  db.query("SELECT * FROM events WHERE id = $1 ",[event_id])
+    .then((data) => {
+      const message = {
+        message: data.rows,
+      };
+      // Send the retrieved data as a JSON response
+      res.json(message);
+
+      console.log('Data from the "events" table:', data.rows);
+    })
+    .catch((err) => {
+      const error = {
+        err: err,
+      };
+
+      res.status(500).json(error);
+    });
+});
+server.post("/events/:id/delete", (req,res) => {
+  const event_id = req.params.id;
+  database
+    .delete_event(event_id)
+    .then((result) => {
+      const message = {
+        message: "Event deleted"
+      };
+      console.log(event_id)
+      console.log("Event deleted")
+      res.status(201).json(message);
+    })
+    .catch((err) => {
+      const error = {
+        error: err,
+      };
+      res.status(500).json(error);
+    });
+});
+server.post("/events/:id/update", (req,res) => {
+  const event_id = req.params.id;
+  const event = {
+    event_name: req.body.event_name,
+    date: req.body.date,
+    description: req.body.description
+  };
+  
+// const event = {
+//     event_name: "stargazing Campout22444",
+//     date: "2023-12-05",
+//     description:
+//       "magical night of camping and stargazing under the stars.",
+//   };
+  database
+    .update_event(event_id,event)
+    .then((result) => {
+      const message = {
+        message: "Event updated"
+      };
+      console.log(event_id)
+      console.log("Event updated")
+      res.status(201).json(message);
+    })
+    .catch((err) => {
+      const error = {
+        error: err,
+      };
+      res.status(500).json(error);
+    });
+})
+
+
 
 server.get("/login", (req, res) => {
   const email = req.body.email;

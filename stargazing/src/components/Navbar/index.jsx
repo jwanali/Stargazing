@@ -36,6 +36,9 @@ const Navbar = () => {
           <Menu.Item key="5">
             <Link to="/weather">Weather</Link>
           </Menu.Item>
+          <Menu.Item key="6">
+            <Link to="/signup">Sign Up</Link>
+          </Menu.Item>
         </Menu>
       </Header>
     </Layout>
