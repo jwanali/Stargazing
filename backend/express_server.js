@@ -5,8 +5,16 @@ const request = require("request-promise-native");
 const express = require("express");
 const cookieSession = require("cookie-session");
 const bcrypt = require("bcryptjs");
-const server = express();
 const bodyParser = require("body-parser");
+const server = express();
+server.use(bodyParser.json());
+server.use(
+  bodyParser.urlencoded({
+    extended: true,
+  }),
+);
+
+
 const database = require("./db/database");
 const { array } = require("prop-types");
 
@@ -77,26 +85,21 @@ server.get("/events", (req, res) => {
 //     });
 // });
 
-server.post("/events/add_event", (req, res) => {
-  // const event = req.body.event;
-  // const event = {
-  //   event_name: "stargazing Campout22444",
-  //   date: "2023-12-05",
-  //   description:
-  //     "Experience a magical night of camping and stargazing under the stars.",
-  // };
+server.post("/events/add_event",(req, res) => {
+ 
   
+  console.log(req.body)
    const event = {
     event_name: req.body.event_name,
     date: req.body.date,
     description: req.body.description
   };
+  console.log(event)
   
   
   database
     .add_event(event)
     .then((result) => {
-      console.log(result)
       const message = {
         message: "Event has been added Successfully",
       };
@@ -159,12 +162,6 @@ server.post("/events/:id/update", (req,res) => {
     description: req.body.description
   };
   
-// const event = {
-//     event_name: "stargazing Campout22444",
-//     date: "2023-12-05",
-//     description:
-//       "magical night of camping and stargazing under the stars.",
-//   };
   database
     .update_event(event_id,event)
     .then((result) => {
@@ -185,15 +182,15 @@ server.post("/events/:id/update", (req,res) => {
 
 
 
-server.get("/login", (req, res) => {
+server.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-  const message = {
-    message: "please input valid email and password",
-  };
+  console.log(password, email)
   if (!email || !password) {
     // checking if email and password is valid or not
-
+    const message = {
+      message: "please input valid email and password",
+    };
     return res.status(400).json(message);
   }
   const values = [email, password];
@@ -214,8 +211,10 @@ server.get("/login", (req, res) => {
         };
         res.status(401).json(message);
       } else {
+        user_id = result.rows[0].id
+        console.log(user_id)
         // we need redirect to home page
-
+        req.session.user_id = user_id;
         res.json(result.rows.length);
       }
     })

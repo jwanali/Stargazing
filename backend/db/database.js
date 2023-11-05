@@ -33,11 +33,10 @@ const add_event = function (event) {
       [event.event_name, event.date, event.description]
     )
     .then((result) => {
-      console.log(result)
      console.log('event added');
     })
     .catch((err) => {
-      console.log(err.message);
+      console.log(err.message,'error');
     });
 }
 const delete_event = function (id) {
