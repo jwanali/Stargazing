@@ -13,6 +13,9 @@ export default function Login(props) {
         props.onLogin(state);
       }}
     >
+      {props.message && (
+        <Alert message={props.message} messageType={props.messageType} />
+      )}
       <div className="login">
         <h1>Login</h1>
         <label>

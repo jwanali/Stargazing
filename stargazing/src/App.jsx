@@ -1,3 +1,4 @@
+import React from "react";
 import "./App.css";
 import styled from "styled-components";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -7,25 +8,49 @@ import { Experience } from "./components/Experience";
 import StarsBackground from "./components/StarsBackground";
 import Navbar from "./components/Navbar/index.jsx";
 import Weather from "./components/Weather";
-// import { AuthProvider } from "./hook/useAuthContext.js";
+import Registration from "./components/Registration";
+import Login from "./components/Login";
+import useApplicationData from "./hook/useApplicationData";
 
 function App() {
+  const {onSignUp, onLogin, message, messageType} = useApplicationData({},{},"","");
   return (
-      <Router>
-        <div>
-          <Navbar />
-          <Routes>
-            <Route path="/weather" element={<Weather />} />
-            {/* Add other routes(Home, Saved, ..) for  application */}
-          </Routes>
-        </div>
-        <Canvas>
-          <StarsBackground />
-          <Suspense fallback={null}>
-            <Experience />
-          </Suspense>
-        </Canvas>
-      </Router>
+    <Router>
+      <div>
+        <Navbar />
+        <Routes>
+          <Route path="/weather" element={<Weather />} />
+          <Route path="/home" element={<App />} />
+          <Route
+            path="/signup"
+            element={
+              <Registration
+                onSignUp={onSignUp}
+                message={message}
+                messageType={messageType}
+              />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <Login
+                onLogin={onLogin}
+                message={message}
+                messageType={messageType}
+              />
+            }
+          />
+          {/* Add other routes(Home, Saved, ..) for  application */}
+        </Routes>
+      </div>
+      <Canvas>
+        <StarsBackground />
+        <Suspense fallback={null}>
+          <Experience />
+        </Suspense>
+      </Canvas>
+    </Router>
   );
 }
 

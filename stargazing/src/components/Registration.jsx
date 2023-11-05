@@ -1,6 +1,8 @@
 import React, { useState} from "react";
 import  "../styles/Registration.css";
 import Alert from "./Alert";
+import { Navigate } from "react-router-dom";
+
 export default function Registration(props) {
 
   const [state, setState] = useState({
@@ -9,6 +11,11 @@ export default function Registration(props) {
     password: "",
     password_confirmation: "",
   });  
+
+  
+  if (props.message) {
+    return <Navigate to="/home" />;
+  }
   return (
     <form
       onSubmit={(e) => {

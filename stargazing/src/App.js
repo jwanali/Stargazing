@@ -12,46 +12,47 @@ import { Suspense } from "react";
 import { Experience } from "./components/Experience";
 import StarsBackground from "./components/StarsBackground";
 import Navbar from "./components/Navbar";
-
-//function App() {
-  //const {onSignUp, onLogin, message, messageType} = useApplicationData({},{},"","");
-  // return (
-  //   <BrowserRouter>
-  //     {" "}
-  //     <Routes>
-  //       {" "}
-  //       <Route path="/" element={<Layout />}>
-  //         {" "}
-  //         <Route index element={"/"} />{" "}
-  //         <Route path="login" element={<Login onLogin={onLogin} />} />{" "}
-  //         <Route
-  //           path="registration"
-  //           element={<Registration onSignUp={onSignUp} message={message} messageType={messageType}/>}
-  //         />{" "}          
-          
-  //       </Route>{" "}
-  //     </Routes>{" "}
-  //   </BrowserRouter>
-  //);
-
-
-
+import Event from "./components/Event";
 
 // function App() {
+//   const {onSignUp, onLogin, message, messageType} = useApplicationData({},{},"","");
 //   return (
-//     <>
-//       <Navbar />
-//       <Canvas>
-//       <StarsBackground />
-//         <Suspense fallback={null}>
-//           <Experience />
-//         </Suspense>
-//       </Canvas>
-//     </>
+//     <BrowserRouter>
+//       {" "}
+//       <Routes>
+//         {" "}
+//         <Route path="/" element={<Layout />}>
+//           {" "}
+//           <Route index element={"/"} />{" "}
+//           <Route path="login" element={<Login onLogin={onLogin} />} />{" "}
+//           <Route
+//             path="registration"
+//             element={<Registration onSignUp={onSignUp} message={message} messageType={messageType}/>}
+//           />{" "}          
+          
+//         </Route>{" "}
+//       </Routes>{" "}
+//     </BrowserRouter>
 //   );
-// }
+//   }
 
-// export default App;
+function App() {
+ 
+  return (
+    <>
+      <Navbar />
+      
+      <Canvas>
+        <StarsBackground />
+        <Suspense fallback={null}>
+          <Experience />
+        </Suspense>
+      </Canvas>
+    </>
+  );
+}
+
+export default App;
 
   
 

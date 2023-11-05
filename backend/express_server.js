@@ -86,8 +86,8 @@ server.get("/events", (req, res) => {
 // });
 
 server.post("/events/add_event",(req, res) => {
- 
-  
+  if (req.session.user_id) {
+    console.log(req.session.user_id)
   console.log(req.body)
    const event = {
     event_name: req.body.event_name,
@@ -111,10 +111,19 @@ server.post("/events/add_event",(req, res) => {
       };
       res.status(500).json(error);
     });
+  } else {
+    const message = {
+      message: "please login first",
+    };
+    res.status(201).json(message);
+
+  }
+  
 });
 
 server.get("/events/:id", (req, res) => {
-  const event_id = req.params.id;
+  if (req.session.user_id) {
+    const event_id = req.params.id;
   console.log(event_id)
   
   db.query("SELECT * FROM events WHERE id = $1 ",[event_id])
@@ -134,9 +143,17 @@ server.get("/events/:id", (req, res) => {
 
       res.status(500).json(error);
     });
+  } else {
+    const message = {
+      message: "please login first",
+    };
+    res.status(201).json(message);
+  }
+  
 });
 server.post("/events/:id/delete", (req,res) => {
-  const event_id = req.params.id;
+  if (req.session.user_id) {
+    const event_id = req.params.id;
   database
     .delete_event(event_id)
     .then((result) => {
@@ -153,9 +170,17 @@ server.post("/events/:id/delete", (req,res) => {
       };
       res.status(500).json(error);
     });
+  } else {
+    const message = {
+      message: "please login first",
+    };
+    res.status(201).json(message);
+  }
+  
 });
 server.post("/events/:id/update", (req,res) => {
-  const event_id = req.params.id;
+  if (req.session.user_id) {
+    const event_id = req.params.id;
   const event = {
     event_name: req.body.event_name,
     date: req.body.date,
@@ -178,6 +203,14 @@ server.post("/events/:id/update", (req,res) => {
       };
       res.status(500).json(error);
     });
+  } else {
+    const message = {
+      message: "please login first",
+    };
+    res.status(201).json(message);
+  }
+  
+  
 })
 
 
@@ -225,6 +258,7 @@ server.post("/login", (req, res) => {
       res.status(500).json(error);
     });
 });
+/*
 server.get("/users", (req, res) => {
   db.query("SELECT * FROM users")
     .then((data) => {
@@ -240,7 +274,7 @@ server.get("/users", (req, res) => {
       res.status(500).json(error);
     });
 });
-
+*/
 server.post("/sign_up", (req, res) => {
   const user = {
     email: req.body.email,
@@ -274,11 +308,21 @@ server.post("/sign_up", (req, res) => {
         const message = {
           message: "User has been registered Successfully",
         };
+        console.log(result.id);
+        req.session.user_id = result.id
         return res.status(201).json(message);
       }
     });
   });
 });
+server.post("/logout", (req,res) => {
+  req.session.user_id = null;
+  const message = {
+    message: "User has been loged out",
+  };
+  res.status(201).json(message);
+
+})
 
 server.get("/api/weather", (req, res) => {
   const fetchMyIP = function () {
