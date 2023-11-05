@@ -316,9 +316,9 @@ server.post("/sign_up", (req, res) => {
   });
 });
 server.post("/logout", (req,res) => {
-  req.session,user_id = null;
+  req.session.user_id = null;
   const message = {
-    message: "User has been registered Successfully",
+    message: "User has been loged out",
   };
   res.status(201).json(message);
 
