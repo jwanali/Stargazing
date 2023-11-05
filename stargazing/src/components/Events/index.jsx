@@ -72,102 +72,14 @@ const contentList = {
           width: "100%",
         }}
         className="box"
-     
+
         tabList={tabList}
         activeTabKey={activeTabKey1}
         onTabChange={onTab1Change}
       >
         {contentList[activeTabKey1]}
       </Card>
-      <br />
+      </div>
+      )
 }
 
-//   return (
-//     <div
-//       style={{ visibility: props.status ? "visible" : "hidden" }}
-//       className="box"
-//     >
-//       <h1 className="event-header">Here is what you can see on date in city</h1>
-//       <div className="events-menu">
-//         <Layout style={{ height: "400px", margin: "40px" }}>
-//           <Sider width={200}>
-//             <Menu
-//               mode="inline"
-//               theme="dark"
-//               defaultSelectedKeys={["1"]}
-//               style={{
-//                 height: "100%",
-//               }}
-//               items={[
-//                 {
-//                   key: 1,
-//                   tab: 1,
-//                   icon: (
-//                     <FontAwesomeIcon
-//                       icon={icon({ name: "moon", style: "solid" })}
-//                     />
-//                   ),
-//                   label: "Moon",
-
-//                 },
-//                 {
-//                   key: 2,
-//                   tab: 2,
-//                   icon: (
-//                     <FontAwesomeIcon
-//                       icon={icon({ name: "sun", style: "solid" })}
-//                     />
-//                   ),
-//                   label: "Sun",
-//                 },
-//                 {
-//                   key: 3,
-//                   tab: 3,
-//                   icon: (
-//                     <FontAwesomeIcon
-//                       icon={icon({
-//                         name: "circle-half-stroke",
-//                         style: "solid",
-//                       })}
-//                     />
-//                   ),
-//                   label: "Eclipse",
-//                 },
-//                 {
-//                   key: 4,
-//                   tab: 4,
-//                   icon: (
-//                     <FontAwesomeIcon
-//                       icon={icon({ name: "earth-europe", style: "solid" })}
-//                     />
-//                   ),
-//                   label: "Planets",
-//                 },
-//                 {
-//                   key: 5,
-//                   icon: (
-//                     <FontAwesomeIcon
-//                       icon={icon({ name: "satellite", style: "solid" })}
-//                     />
-//                   ),
-//                   label: "Satellites",
-//                 },
-//               ]}
-//             />
-//           </Sider>
-//           <Content
-//             style={{
-//               padding: "0 24px",
-//               minHeight: 280,
-//             }}
-//           >
-//             <Eclipse status={show}/>
-//           </Content>
-//         </Layout>
-//       </div>
-//       <div className="weather-container">
-
-//       </div>
-//     </div>
-//   );
-// }
