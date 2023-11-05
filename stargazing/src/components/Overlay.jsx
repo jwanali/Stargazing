@@ -97,8 +97,8 @@ export function Overlay(props) {
             </Button>
           </Space>
         </Section2>
-        <Events status={show} />
       </div>
+      <Events status={show} />
     </Scroll>
   );
 }
