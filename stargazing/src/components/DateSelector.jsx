@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { DatePicker } from "antd";
-import "./DateSelector.css"
+import "./DateSelector.css";
 
 export default function DateSelector() {
   const [date, setDate] = useState(new Date());

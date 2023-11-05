@@ -1,22 +1,31 @@
+
 import "./App.css";
 import styled from "styled-components";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { Experience } from "./components/Experience";
 import StarsBackground from "./components/StarsBackground";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/index";
+import Weather from "./components/Weather";
 
 function App() {
   return (
-    <>
-      <Navbar />
+    <Router>
+      <div>
+        <Navbar />
+        <Routes>
+          <Route path="/weather" element={<Weather />} />
+          {/* Add other routes(Home, Saved, ..) for  application */}
+        </Routes>
+      </div>
       <Canvas>
-      <StarsBackground />
+        <StarsBackground />
         <Suspense fallback={null}>
           <Experience />
         </Suspense>
       </Canvas>
-    </>
+    </Router>
   );
 }
 

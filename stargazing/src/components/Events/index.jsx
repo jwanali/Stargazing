@@ -6,10 +6,10 @@ import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import Weather_api from "../../hook/weather_api";
 import Weather from "../Weather";
 
-export default function Events(props) {
-  const [show, setShow] = useState(false);
 
-  const contentList = {
+export default function Events(props) {
+  
+const contentList = {
     Moon: (
       <div className="moon">
         <h2>Moon Phase: Waning Gibbous</h2>
@@ -17,6 +17,7 @@ export default function Events(props) {
         <h2>Moonrise Today: 8:43pm</h2>
         <h2>Moonset Today: 12:27pm</h2>
       </div>
+
     ),
     Sun: (
       <div label="Sun">
@@ -79,8 +80,6 @@ export default function Events(props) {
         {contentList[activeTabKey1]}
       </Card>
       <br />
-    </div>
-  );
 }
 
 //   return (
