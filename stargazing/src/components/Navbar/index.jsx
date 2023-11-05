@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { Layout, Menu, theme } from "antd";
 import logo from "../assets/logo.png";
 import "./Navbar.css";
+import useApplicationData from "../../hook/useApplicationData";
 
 const Navbar = () => {
   const { Header } = Layout;
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const {message, messageType, onSignUp, onLogin } = useApplicationData
   return (
     <Layout className="layout">
       <Header
