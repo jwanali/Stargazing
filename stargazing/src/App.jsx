@@ -6,7 +6,7 @@ import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { Experience } from "./components/Experience";
 import StarsBackground from "./components/StarsBackground";
-import Navbar from "./components/Navbar/index";
+import Navbar from "./components/Navbar/index.jsx";
 import Weather from "./components/Weather";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
