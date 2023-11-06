@@ -137,7 +137,7 @@ server.get("/events/:id", (req, res) => {
     /** JOIN users_events ON $1 = users_events.user_id
   JOIN events ON events.id = users_events.event_id ; */
   
-  db.query(`SELECT * FROM events Right JOIN users_events ON  users_events.user_id = $1 JOIN users ON users.id = users_events.user_id `,[user_id])
+  db.query(`SELECT event_id, events. event_name , users.name as user_name, events.date, events.description FROM users_events  JOIN events ON  users_events.event_id = events.id JOIN users ON users.id = users_events.user_id  WHERE users_events.user_id = $1 `,[user_id])
     .then((data) => {
       const message = {
         message: data.rows,
