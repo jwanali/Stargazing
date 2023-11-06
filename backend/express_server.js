@@ -86,13 +86,14 @@ server.get("/events", (req, res) => {
 // });
 
 server.post("/events/add_event",(req, res) => {
-  if (req.session.user_id) {
-    console.log(req.session.user_id)
-  console.log(req.body)
+  console.log(req.session.user_id);
+  console.log(req.body.user_id)
+  if (req.session.user_id == req.body.user_id) {
    const event = {
     event_name: req.body.event_name,
     date: req.body.date,
-    description: req.body.description
+    description: req.body.description,
+    user_id : req.body.user_id
   };
   console.log(event)
   
@@ -100,10 +101,18 @@ server.post("/events/add_event",(req, res) => {
   database
     .add_event(event)
     .then((result) => {
-      const message = {
-        message: "Event has been added Successfully",
-      };
-      res.status(201).json(message);
+      if (result === 1) {
+        const message = {
+          message: "Event has been added Successfully",
+        };
+        res.status(201).json(message);
+      } else {
+        const error = {
+          error: "error faild to insert",
+        };
+        res.status(500).json(error);
+      }
+      
     })
     .catch((err) => {
       const error = {
@@ -123,10 +132,12 @@ server.post("/events/add_event",(req, res) => {
 
 server.get("/events/:id", (req, res) => {
   if (req.session.user_id) {
-    const event_id = req.params.id;
-  console.log(event_id)
+    const user_id = req.params.id;
+    console.log(user_id)
+    /** JOIN users_events ON $1 = users_events.user_id
+  JOIN events ON events.id = users_events.event_id ; */
   
-  db.query("SELECT * FROM events WHERE id = $1 ",[event_id])
+  db.query(`SELECT event_id, events. event_name , users.name as user_name, events.date, events.description FROM users_events  JOIN events ON  users_events.event_id = events.id JOIN users ON users.id = users_events.user_id  WHERE users_events.user_id = $1 `,[user_id])
     .then((data) => {
       const message = {
         message: data.rows,
@@ -137,6 +148,7 @@ server.get("/events/:id", (req, res) => {
       console.log('Data from the "events" table:', data.rows);
     })
     .catch((err) => {
+      console.log(err)
       const error = {
         err: err,
       };
@@ -218,7 +230,6 @@ server.post("/events/:id/update", (req,res) => {
 server.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-  console.log(password, email)
   if (!email || !password) {
     // checking if email and password is valid or not
     const message = {
@@ -244,11 +255,10 @@ server.post("/login", (req, res) => {
         };
         res.status(401).json(message);
       } else {
-        user_id = result.rows[0].id
-        console.log(user_id)
+        user_id = result.rows[0].id;
         // we need redirect to home page
         req.session.user_id = user_id;
-        res.json(result.rows.length);
+        res.json(result.rows);
       }
     })
     .catch((err) => {
@@ -295,24 +305,32 @@ server.post("/sign_up", (req, res) => {
     return res.status(400).json(error);
   }
   //check if the user already signup
-  database.getUserWithEmail(user.email).then((users) => {
-    console.log(users);
-    if (!users) {
+  database.getUserWithEmail(user.email)
+  .then((users) => {
+    console.log(users.length);
+    if (users.length) {
       return res.send({
         error: "A registration with this email already exist",
       });
-    }
-    //register new users
-    database.signupUsers(user).then((result) => {
-      if (result) {
-        const message = {
-          message: "User has been registered Successfully",
+    } else {
+      database.signupUsers(user)
+      .then((result) => {
+        if (result) {
+          const message = {
+            message: "User has been registered Successfully",
+          };
+          console.log(result.id);
+          req.session.user_id = result.id
+          return res.status(201).json(message);
+        }
+      })
+      .catch((err) => {
+        const error = {
+          error: err,
         };
-        console.log(result.id);
-        req.session.user_id = result.id
-        return res.status(201).json(message);
-      }
-    });
+        res.status(500).json(error);
+      })
+    }
   });
 });
 server.post("/logout", (req,res) => {
