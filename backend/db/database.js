@@ -28,13 +28,16 @@ const add_event = function (event) {
   return db
     .query(
       `INSERT INTO events (event_name, date, description)
+      
       VALUES 
-      ($1,$2,$3)`,
+      ($1,$2,$3) RETURNING id;`,
       [event.event_name, event.date, event.description]
     )
-    .then((result) => {
-     console.log('event added');
-    })
+    .then((result) => result.rows[0].id)
+    .then((data) => 
+      db.query(`INSERT INTO users_events (user_id, event_id)
+    VALUES ($1,$2) RETURNING id`,[event.user_id,data]))
+    .then((result) => 1)
     .catch((err) => {
       console.log(err.message,'error');
     });
