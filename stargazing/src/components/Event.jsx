@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import Alert from "./Alert";
 
-//  const { onSignUp, onLogin, message, messageType, onCreateEvent } =
-//    useApplicationData({}, {}, "", "");
-//  <Event
-//    onCreateEvent={onCreateEvent}
-//    message={message}
-//    messageType={messageType}
-//  />;
+
 export default function Event(props){
     const [state, setState] = useState({
       event_name: "",
       date: "1900-01-01",
       description: "",
+      user_id: props.saveduser[0].id,
     });  
   return (
 <form

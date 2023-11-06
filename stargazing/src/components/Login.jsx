@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import "../styles/Login.css";
+import Alert from "./Alert";
+import { Navigate } from "react-router-dom";
 export default function Login(props) {
   const [state, setState] = useState({
     email: "",
     password: "",
   });
 
+     if (props.message) {
+       return <Navigate to="/home" />;
+     }
   return (
     <form
       onSubmit={(e) => {
@@ -15,6 +20,7 @@ export default function Login(props) {
     >
       {props.message && (
         <Alert message={props.message} messageType={props.messageType} />
+        
       )}
       <div className="login">
         <h1>Login</h1>

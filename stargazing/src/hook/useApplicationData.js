@@ -1,5 +1,7 @@
-import { useReducer } from "react";
+import { useReducer, useEffect } from "react";
 import React from "react";
+import Alert from "../components/Alert"
+import { Error } from "@material-ui/icons";
 
 export const ACTIONS = {
   USER_LOGIN: "USER_LOGIN",
@@ -16,7 +18,7 @@ export const ACTIONS = {
     
     return { ...state, message: action.payload, messageType: action.messageType };    
     case ACTIONS.USER_LOGIN:
-      return {...state,photoData: action.payload}
+      return {...state,saveduser:action.payload};
    }
  };
  const initialState = {
@@ -27,6 +29,9 @@ export default function useApplicationData(initial) {
  
  
  const [state, dispatch] = useReducer(reducer, initial);
+
+ 
+
 
  const onCreateEvent = (data) => {
   const options = {
@@ -78,7 +83,8 @@ export default function useApplicationData(initial) {
         dispatch({ type: ACTIONS.USER_SIGNUP, payload: data.message , messageType:"success"})}
         
       )
-      .catch(err=> alert("An error Occured."  + err))
+      .catch(err=> {<Alert message={"Error OCcured, while fecting Events"} Type={"error"} />  })
+      
   };
 
     const onLogin = (userdata) => {
@@ -93,25 +99,37 @@ export default function useApplicationData(initial) {
 
       fetch(`http://localhost:8080/login`, options)
         .then((res) => {
-           if (!res.ok) {
-             return res.text().then((text) => {
-               throw new Error(text);
-             });
-           }
-          res.json();
+            if (!res.ok) {
+              return res.text().then((text) => {
+              throw new Error(text);
+            });
+          }
+         return  res.json();
         })
-        .then((data) => dispatch({ type: ACTIONS.USER_LOGIN, payload: data }))
-        .catch((err) => alert("An error Occured." + err));
+        .then((data) =>{
+          console.log("Login object", data); 
+          dispatch({ type: ACTIONS.USER_LOGIN, payload: data })})
+        .catch((err) => {
+          console.log("Error", err);
+          <Alert
+            message={"Error OCcured, while Loging in. Please use another Email and password"}
+            Type={"error"}
+          />;
+        });
     };
 const message = state.message;
 const messageType = state.messageType;
-
+const saveduser = state.saveduser;
   return {
     onSignUp,
     onLogin,
     message,
     messageType,
-    onCreateEvent
+    onCreateEvent,
+    saveduser,
+   // eventData,
+    // onEdit,
+    // onDelete
   };
 
 }

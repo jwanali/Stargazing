@@ -11,9 +11,11 @@ import Weather from "./components/Weather";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 import useApplicationData from "./hook/useApplicationData";
+import EventTable from "./components/EventTable";
 
 function App() {
-  const {onSignUp, onLogin, message, messageType} = useApplicationData({},{},"","");
+  const { onSignUp, onLogin, message, messageType, onCreateEvent,saveduser } =
+    useApplicationData({}, {}, "", "",{},{id:0, event_name:"",date:"1900-01-01",description:""});
   return (
     <Router>
       <div>
@@ -21,6 +23,7 @@ function App() {
         <Routes>
           <Route path="/weather" element={<Weather />} />
           <Route path="/home" element={<App />} />
+          <Route path="/saved" element={<EventTable saveduser={saveduser} />} />
           <Route
             path="/signup"
             element={
