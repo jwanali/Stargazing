@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import {onSignUp, onLogin, message,messageType, onCreateEvent } from "../hook/useApplicationData";
 import Alert from "./Alert";
 import "../styles/Login.css";
 export default function Login(props) {
@@ -6,6 +8,20 @@ export default function Login(props) {
     email: "",
     password: "",
   });
+  // const history = useHistory();
+
+  // const handleSubmit = async(e) => {
+  //   e.preventDefault();
+
+  //   const loginResult = await onLogin(state);
+  //   props.onLogin(state);
+  //   if(loginResult.success) {
+  //     history.push("/home");
+  //   } else {
+  //     history.push("/signup");
+  //   }
+      
+  // }
 
   return (
     <form
