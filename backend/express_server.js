@@ -165,16 +165,23 @@ server.get("/events/:id", (req, res) => {
 });
 server.post("/events/:id/delete", (req,res) => {
   if (req.session.user_id) {
+    const user_id = req.session.user_id
     const event_id = req.params.id;
   database
-    .delete_event(event_id)
+    .delete_event(event_id, user_id)
     .then((result) => {
-      const message = {
-        message: "Event deleted"
-      };
-      console.log(event_id)
-      console.log("Event deleted")
-      res.status(201).json(message);
+      if (result) {
+        const message = {
+          message: "Event deleted"
+        };
+        res.status(201).json(message);
+      } else {
+        const error = {
+          error : `failed to delete`
+        };
+        res.status(500).json(error);
+      }
+      
     })
     .catch((err) => {
       const error = {
