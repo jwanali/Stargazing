@@ -66,14 +66,26 @@ const delete_event = function (id) {
 };
 */
 const update_event = function (id,event) {
+
   return db
-    .query(`UPDATE events SET event_name = $2, date = $3, description =$4  WHERE id = $1;`,[id, event.event_name, event.date, event.description])
+            .query(`SELECT * FROM events WHERE  id = $1`,[id])
+            .then ((result) => result.rows[0].id)
+            .then((data) => db.query(`UPDATE events SET event_name = $1, date = $2, description =$3  WHERE id = $4;`,[event.event_name, event.date, event.description, id]))
+            .then((result) => 1)
+             .catch((err) => {
+               console.log(err.message);
+             });
+  /*
+  return db
+    .query(`UPDATE events SET event_name = $1, date = $2, description =$3  WHERE id = $4;`,[event.event_name, event.date, event.description, id])
     .then((result) => {
-      console.log('event updated');
+      console.log(result)
+      console.log('event updated',1);
      })
      .catch((err) => {
        console.log(err.message);
      });
+     */
 }
 
 module.exports = {
