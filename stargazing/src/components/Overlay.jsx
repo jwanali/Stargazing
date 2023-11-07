@@ -34,6 +34,8 @@ const Section2 = (props) => {
       }`}
       style={{
         opacity: props.opacity,
+        width: "40em",
+        display: "contents",
       }}
     >
       <div className="Section2-box">{props.children}</div>
@@ -46,6 +48,8 @@ const Section3 = (props) => {
     <section
       style={{
         opacity: props.opacity,
+        width: "60em",
+
       }}
     >
       <div className="Section3-box">{props.children}</div>
@@ -68,19 +72,17 @@ export function Overlay(props) {
   });
 
   return (
-    <Scroll html>
+    <Scroll html style={{width:"100vw"}}>
       <Section1 className="dot">
         <h1 opacity={opacityFirstSection} className="dot">
           Hello World.
         </h1>
       </Section1>
-      <div class="w-screen">
-        <Section2 opacity={opacitySecondSection}>
+   
+        <Section2 className="Section2-box"opacity={opacitySecondSection} style={{display:"initial"}}>
           <h1 className="font-semibold font-serif text-2xl">
-            What can I see in the sky tonight?
+            What's in the sky tonight?
           </h1>
-          <p>Enter the date and your location</p>
-          <p className="mt-3">City:</p>
           <Input
             className="City-input"
             type="text"
@@ -88,7 +90,7 @@ export function Overlay(props) {
             placeholder="Enter your City"
             id="user-location"
           ></Input>
-          <p className="mt-3">Date:</p>
+          <br></br>
           <DateSelector />
           <p></p>
           <Space wrap>
@@ -97,8 +99,9 @@ export function Overlay(props) {
             </Button>
           </Space>
         </Section2>
-      </div>
+      <Section3 className="Section3-box">
       <Events status={show} />
+      </Section3>
     </Scroll>
   );
 }

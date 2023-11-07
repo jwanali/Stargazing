@@ -1,5 +1,5 @@
 .dot {
-
+  
   padding-left: 3em;
   padding-right: 3em;
   pointer-events: none;
@@ -83,7 +83,10 @@ button:hover {
 }
 
 .Section2-box {
-  background-color: #001529;
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+  background-color: #0015297d;
   max-height: 35em;
   padding-left: 2em;
   padding-right: 2em;
@@ -99,4 +102,8 @@ button:hover {
 .events-section {
   width:100%;
   
+}
+
+.Section3-box {
+  width: 77em;
 }
