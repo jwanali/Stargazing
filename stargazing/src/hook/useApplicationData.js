@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import React from "react";
+// import React from "react";
 
 export const ACTIONS = {
   USER_LOGIN: "USER_LOGIN",
@@ -23,10 +23,10 @@ export const ACTIONS = {
 
  };
 
-export default function useApplicationData(initial) {
+export default function useApplicationData() {
  
  
- const [state, dispatch] = useReducer(reducer, initial);
+ const [state, dispatch] = useReducer(reducer, initialState);
 
  const onCreateEvent = (data) => {
   const options = {
