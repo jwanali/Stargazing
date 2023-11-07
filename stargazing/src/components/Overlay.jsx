@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Scroll, useScroll } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { Button, Space } from "antd";
@@ -55,17 +55,19 @@ const Section3 = (props) => {
 
 export function Overlay(props) {
   const scroll = useScroll();
-  const [opacityFirstSection, setOpacityFirstSection] = useState(1);
-  const [opacitySecondSection, setOpacitySecondSection] = useState(1);
+  const [opacityFirstSection] = useState(1);
+  const [opacitySecondSection] = useState(1);
   const [opacityLastSection, setOpacityLastSection] = useState(1);
 
   const [show, setShow] = useState(false);
 
-  useFrame(() => {
-    setOpacityFirstSection(scroll.range(2 / 3, 1 / 3));
-    setOpacitySecondSection(scroll.range(0, 1 / 3));
-    setOpacityLastSection(scroll.range(2 / 3, 1 / 3));
-  });
+
+  const EventsRef = useRef(null);
+
+  function goToEvents() {
+    EventsRef.current?.scrollIntoView({ behavior: 'smooth' });
+    setShow(!show);
+  }
 
   return (
     <Scroll html>
@@ -79,8 +81,7 @@ export function Overlay(props) {
           <h1 className="font-semibold font-serif text-2xl">
             What can I see in the sky tonight?
           </h1>
-          <p>Enter the date and your location</p>
-          <p className="mt-3">City:</p>
+          <p>Enter your date and your location</p>
           <Input
             className="City-input"
             type="text"
@@ -88,17 +89,17 @@ export function Overlay(props) {
             placeholder="Enter your City"
             id="user-location"
           ></Input>
-          <p className="mt-3">Date:</p>
+          <p></p>
           <DateSelector />
           <p></p>
           <Space wrap>
-            <Button type="primary" onClick={() => setShow(!show)}>
+            <Button type="primary" onClick={goToEvents}>
               Start Exploring {<RocketOutlined />}{" "}
             </Button>
           </Space>
         </Section2>
       </div>
-      <Events status={show} />
+        <Events ref={EventsRef} status={show} />
     </Scroll>
   );
 }
