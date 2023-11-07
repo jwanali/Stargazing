@@ -31,7 +31,7 @@ function EventTable(props) {
   
   // Initial states
   const [open, setOpen] = React.useState(false);
-  const [isEdit, setEdit] = React.useState(true);
+  const [isEdit, setEdit] = React.useState(false);
   const [disable, setDisable] = React.useState(true);
   const [showConfirm, setShowConfirm] = React.useState(false);
 
@@ -84,9 +84,19 @@ function EventTable(props) {
     setRows(list);
   };
 
+  const handleUpdate = () =>{
+    props.onEdit(rows)
+    setEdit(false);
+  }
+
+  const handleDelete = () => {
+    props.onDelete(rows);
+    setEdit(false);
+  };
+
   // Showing delete confirmation to users
   const handleConfirm = () => {
-    console.log("I got here now");
+    
     setShowConfirm(true);
   };
 
@@ -105,9 +115,13 @@ function EventTable(props) {
     setShowConfirm(false);
   };
   
+  const handleAction = () => {
+    setEdit(true);
+  }
   
   return (
     <div>
+      <button className="table.button" onClick={handleAction}>EDIT</button>
     <table className="table">
     
     <tr>
@@ -151,9 +165,15 @@ function EventTable(props) {
                 </td>
                 <td align="center">
                   {isEdit ? (
-                    <button  onClick={handleConfirm}>UPDATE</button>
+                    <>
+                      {" "}
+                      <button onClick={handleUpdate}>UPDATE </button>
+                      <button oonClick={() => handleRemoveClick(i)}>
+                        DELETE
+                      </button>
+                    </>
                   ) : (
-                    <button onClick={handleConfirm}>EDIT</button>
+                    <button onClick={() => handleRemoveClick(i)}>DELETE</button>
                   )}
                 </td>
               </>
@@ -167,7 +187,7 @@ function EventTable(props) {
                   {isEdit ? (
                     <button onClick={handleConfirm}>UPDATE</button>
                   ) : (
-                    <button onClick={handleConfirm}>EDIT</button>
+                    <button onClick={() => handleRemoveClick(i)}>DELETE</button>
                   )}
                 </td>
               </>

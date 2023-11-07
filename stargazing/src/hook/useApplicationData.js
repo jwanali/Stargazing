@@ -6,7 +6,9 @@ import { Error } from "@material-ui/icons";
 export const ACTIONS = {
   USER_LOGIN: "USER_LOGIN",
   USER_SIGNUP: "USER_SIGNUP",
-  SAVE_EVENT: "SAVE_EVENT"
+  SAVE_EVENT: "SAVE_EVENT",
+  DELETE_EVENT:"DELETE_EVENT",
+  EDIT_EVENT:"UPDATE_EVENT"
 };
 
  const reducer = (state, action) => {
@@ -19,6 +21,10 @@ export const ACTIONS = {
     return { ...state, message: action.payload, messageType: action.messageType };    
     case ACTIONS.USER_LOGIN:
       return {...state,saveduser:action.payload};
+      case ACTIONS.DELETE_EVENT:
+        return{...state,deleted:action.payload}
+        case ACTIONS.EDIT_EVENT:
+          return{...state,updated:action.payload}
    }
  };
  const initialState = {
@@ -117,6 +123,66 @@ export default function useApplicationData(initial) {
           />;
         });
     };
+
+     const onEdit = (data) => {
+       const options = {
+         method: "POST",
+         mode: "cors",
+         headers: {
+           "Content-Type": "application/json",
+         },
+         body: JSON.stringify(data),
+       };
+      
+       console.log(data);
+
+       fetch(`http://localhost:8080/events/${data[0].id}/update`, options)
+         .then((res) => {
+           if (!res.ok) {
+             return res.text().then((text) => {
+               throw new Error(text);
+             });
+           }
+           return res.json();
+         })
+         .then((data) => {
+           console.log("Login object", data);
+           dispatch({ type: ACTIONS.EDIT_EVENT, payload: data });
+         })
+         .catch((err) => {
+           console.log("Error", err);          
+          
+         });
+     };
+
+
+     const onDelete = (data) => {
+       const options = {
+         method: "POST",
+         mode: "cors",
+         headers: {
+           "Content-Type": "application/json",
+         },
+         body: JSON.stringify(data),
+       };
+
+       fetch(`http://localhost:8080/events/${data}/delete`, options)
+         .then((res) => {
+           if (!res.ok) {
+             return res.text().then((text) => {
+               throw new Error(text);
+             });
+           }
+           return res.json();
+         })
+         .then((data) => {
+           console.log("Login object", data);
+           dispatch({ type: ACTIONS.DELETE_EVENT, payload: data });
+         })
+         .catch((err) => {
+           console.log("Error", err);
+         });
+     };
 const message = state.message;
 const messageType = state.messageType;
 const saveduser = state.saveduser;
@@ -127,9 +193,8 @@ const saveduser = state.saveduser;
     messageType,
     onCreateEvent,
     saveduser,
-   // eventData,
-    // onEdit,
-    // onDelete
+    onEdit,
+    onDelete,
   };
 
 }

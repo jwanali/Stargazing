@@ -9,7 +9,7 @@ import EventTableRoute from "./components/EventTableRoute";
 import HomeRoute from "./components/HomeRoute";
 
 function App() {
-  const { onSignUp, onLogin, message, messageType, onCreateEvent,saveduser } =
+  const { onSignUp, onLogin, message, messageType, onCreateEvent,saveduser,onEdit,onDelete } =
     useApplicationData({}, {}, "", "",{},{id:0, event_name:"",date:"1900-01-01",description:""});
   return (
     <Router>
@@ -19,7 +19,7 @@ function App() {
           <Route path="/" element={<HomeRoute />} />
           <Route
             path="/saved"
-            element={<EventTableRoute saveduser={saveduser} />}
+            element={<EventTableRoute saveduser={saveduser} onEdit={onEdit} onDelete={onDelete}/>}
           />
           <Route
             path="/signup"

@@ -8,12 +8,15 @@
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #04AA6D;
+  background-color: purple;
   color: white;
 }
 
 .table button {
-  background-color: white;
+  background-color: purple;
+  color:white;
+  padding: 15px;
+  cursor:pointer;
 }
 
 .table 
