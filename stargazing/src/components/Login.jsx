@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Alert from "./Alert";
 import "../styles/Login.css";
-import Alert from "./Alert";
 import { Navigate } from "react-router-dom";
 export default function Login(props) {
   const [state, setState] = useState({
