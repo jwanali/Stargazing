@@ -40,8 +40,6 @@ server.use(
 );
 server.get("/events", (req, res) => {
   
-  
-  
   db.query("SELECT * FROM events")
     .then((data) => {
       const message = {
@@ -86,9 +84,8 @@ server.get("/events", (req, res) => {
 // });
 
 server.post("/events/add_event",(req, res) => {
-  console.log(req.session.user_id);
-  console.log(req.body.user_id)
-  if (req.session.user_id == req.body.user_id) {
+
+  console.log(req.body)
    const event = {
     event_name: req.body.event_name,
     date: req.body.date,

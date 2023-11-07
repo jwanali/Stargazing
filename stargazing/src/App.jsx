@@ -1,30 +1,30 @@
 import React from "react";
 import "./App.css";
-import styled from "styled-components";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Canvas } from "@react-three/fiber";
-import { Suspense } from "react";
-import { Experience } from "./components/Experience";
-import StarsBackground from "./components/StarsBackground";
-import Navbar from "./components/Navbar/index.jsx";
-import Weather from "./components/Weather";
-import Registration from "./components/Registration";
-import Login from "./components/Login";
+import LoginRoute from "./components/LoginRoute";
+import WeatherRoute from "./components/WeatherRoute";
+import RegistrationRoute from "./components/RegistrationRoute";
 import useApplicationData from "./hook/useApplicationData";
+import EventTableRoute from "./components/EventTableRoute";
+import HomeRoute from "./components/HomeRoute";
 
 function App() {
-  const {onSignUp, onLogin, message, messageType} = useApplicationData({},{},"","");
+  const { onSignUp, onLogin, message, messageType, onCreateEvent,saveduser,onEdit,onDelete } =
+    useApplicationData({}, {}, "", "",{},{id:0, event_name:"",date:"1900-01-01",description:""});
   return (
     <Router>
       <div>
-        <Navbar />
         <Routes>
-          <Route path="/weather" element={<Weather />} />
-          <Route path="/home" element={<App />} />
+          <Route path="/weather" element={<WeatherRoute />} />
+          <Route path="/" element={<HomeRoute />} />
+          <Route
+            path="/saved"
+            element={<EventTableRoute saveduser={saveduser} onEdit={onEdit} onDelete={onDelete}/>}
+          />
           <Route
             path="/signup"
             element={
-              <Registration
+              <RegistrationRoute
                 onSignUp={onSignUp}
                 message={message}
                 messageType={messageType}
@@ -34,22 +34,17 @@ function App() {
           <Route
             path="/login"
             element={
-              <Login
+              <LoginRoute
                 onLogin={onLogin}
                 message={message}
                 messageType={messageType}
+                saveduser={saveduser}
               />
             }
           />
           {/* Add other routes(Home, Saved, ..) for  application */}
         </Routes>
       </div>
-      <Canvas>
-        <StarsBackground />
-        <Suspense fallback={null}>
-          <Experience />
-        </Suspense>
-      </Canvas>
     </Router>
   );
 }
