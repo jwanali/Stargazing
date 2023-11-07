@@ -2,12 +2,11 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginRoute from "./components/LoginRoute";
-import Weather from "./components/Weather";
-import Registration from "./components/Registration";
-import Login from "./components/Login";
+import WeatherRoute from "./components/WeatherRoute";
+import RegistrationRoute from "./components/RegistrationRoute";
 import useApplicationData from "./hook/useApplicationData";
-import EventTable from "./components/EventTable";
-import Home from "./components/Home";
+import EventTableRoute from "./components/EventTableRoute";
+import HomeRoute from "./components/HomeRoute";
 
 function App() {
   const { onSignUp, onLogin, message, messageType, onCreateEvent,saveduser } =
@@ -15,14 +14,17 @@ function App() {
   return (
     <Router>
       <div>
-          <Routes>
-          <Route path="/weather" element={<Weather />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/saved" element={<EventTable saveduser={saveduser} />} />
+        <Routes>
+          <Route path="/weather" element={<WeatherRoute />} />
+          <Route path="/" element={<HomeRoute />} />
+          <Route
+            path="/saved"
+            element={<EventTableRoute saveduser={saveduser} />}
+          />
           <Route
             path="/signup"
             element={
-              <Registration
+              <RegistrationRoute
                 onSignUp={onSignUp}
                 message={message}
                 messageType={messageType}
@@ -43,7 +45,6 @@ function App() {
           {/* Add other routes(Home, Saved, ..) for  application */}
         </Routes>
       </div>
-   
     </Router>
   );
 }

@@ -8,7 +8,7 @@ import styled from "styled-components";
 export default function Home(){
   return (
     <>
-      <Navbar/>
+      
       <Canvas>
         <StarsBackground />
         <Suspense fallback={null}>
