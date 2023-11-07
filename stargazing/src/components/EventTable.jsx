@@ -13,7 +13,7 @@ function EventTable(props) {
   const [rows, setRows] = useState([{}]);
 
      useEffect(() => {
-     const id = 1;//props.saveduser[0].id;    
+     const id = props.saveduser[0].id;    
      fetch(`http://localhost:8080/events/${id}`)
        .then((res) => res.json())
        .then((data) => {
