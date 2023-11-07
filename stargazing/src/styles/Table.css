@@ -1,0 +1,22 @@
+.table {
+  width: 1050;
+  
+}
+.table th, td {
+  padding: 15px;
+  text-align: left;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+
+.table button {
+  background-color: white;
+}
+
+.table 
+.table-header{
+width: 100px;
+}

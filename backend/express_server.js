@@ -40,8 +40,6 @@ server.use(
 );
 server.get("/events", (req, res) => {
   
-  
-  
   db.query("SELECT * FROM events")
     .then((data) => {
       const message = {
@@ -86,8 +84,7 @@ server.get("/events", (req, res) => {
 // });
 
 server.post("/events/add_event",(req, res) => {
- 
-  
+
   console.log(req.body)
    const event = {
     event_name: req.body.event_name,
@@ -215,7 +212,7 @@ server.post("/login", (req, res) => {
         console.log(user_id)
         // we need redirect to home page
         req.session.user_id = user_id;
-        res.json(result.rows.length);
+        res.json(result.rows);
       }
     })
     .catch((err) => {

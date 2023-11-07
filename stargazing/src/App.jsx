@@ -1,17 +1,13 @@
 import React from "react";
 import "./App.css";
-import styled from "styled-components";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Canvas } from "@react-three/fiber";
-import { Suspense } from "react";
-import { Experience } from "./components/Experience";
-import StarsBackground from "./components/StarsBackground";
-import Navbar from "./components/Navbar/index.jsx";
+import LoginRoute from "./components/LoginRoute";
 import Weather from "./components/Weather";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 import useApplicationData from "./hook/useApplicationData";
 import EventTable from "./components/EventTable";
+import Home from "./components/Home";
 
 function App() {
   const { onSignUp, onLogin, message, messageType, onCreateEvent,saveduser } =
@@ -19,10 +15,9 @@ function App() {
   return (
     <Router>
       <div>
-        <Navbar />
-        <Routes>
+          <Routes>
           <Route path="/weather" element={<Weather />} />
-          <Route path="/home" element={<App />} />
+          <Route path="/" element={<Home />} />
           <Route path="/saved" element={<EventTable saveduser={saveduser} />} />
           <Route
             path="/signup"
@@ -37,22 +32,18 @@ function App() {
           <Route
             path="/login"
             element={
-              <Login
+              <LoginRoute
                 onLogin={onLogin}
                 message={message}
                 messageType={messageType}
+                saveduser={saveduser}
               />
             }
           />
           {/* Add other routes(Home, Saved, ..) for  application */}
         </Routes>
       </div>
-      <Canvas>
-        <StarsBackground />
-        <Suspense fallback={null}>
-          <Experience />
-        </Suspense>
-      </Canvas>
+   
     </Router>
   );
 }
