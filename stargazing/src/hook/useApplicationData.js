@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 import { useReducer, useEffect } from "react";
 import React from "react";
 import Alert from "../components/Alert"
 import { Error } from "@material-ui/icons";
+=======
+import { useReducer } from "react";
+// import React from "react";
+>>>>>>> 7f2f9f1f4651ddf513a1b7bd92bccdfea831c446
 
 export const ACTIONS = {
   USER_LOGIN: "USER_LOGIN",
@@ -25,10 +30,10 @@ export const ACTIONS = {
 
  };
 
-export default function useApplicationData(initial) {
+export default function useApplicationData() {
  
  
- const [state, dispatch] = useReducer(reducer, initial);
+ const [state, dispatch] = useReducer(reducer, initialState);
 
  
 
