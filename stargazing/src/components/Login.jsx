@@ -9,8 +9,9 @@ export default function Login(props) {
     password: "",
   });
 
-     if (props.message) {
-       return <Navigate to="/home" />;
+     if (props.saveduser) {
+       console.log("i was here", props.saveduser);
+       return <Navigate to="/" />;
      }
   return (
     <form
