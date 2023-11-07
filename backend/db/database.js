@@ -12,7 +12,7 @@ const signupUsers = function (user) {
       console.log(err.message);
     });
 };
-
+ 
 
 const getUserWithEmail = function (id) {
   return db
@@ -42,6 +42,18 @@ const add_event = function (event) {
       console.log(err.message,'error');
     });
 }
+
+const delete_event = function (event_id,user_id) {
+  return db
+    .query(`SELECT user_id FROM users_events  WHERE users_events.event_id = $1 ;`,[event_id])
+    .then ((result) => result.rows[0])
+    .then((data) => (data.user_id === user_id))
+    .then((res) =>  db.query(`DELETE FROM events WHERE id = $1 RETURNING *; `,[event_id]) )
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+/*
 const delete_event = function (id) {
   return db
     .query(`DELETE FROM events WHERE id = $1 RETURNING *; `,[id])
@@ -52,6 +64,7 @@ const delete_event = function (id) {
        console.log(err.message);
      });
 };
+*/
 const update_event = function (id,event) {
   return db
     .query(`UPDATE events SET event_name = $2, date = $3, description =$4  WHERE id = $1;`,[id, event.event_name, event.date, event.description])
