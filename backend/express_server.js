@@ -40,6 +40,8 @@ server.use(
 );
 server.get("/events", (req, res) => {
   
+  
+  
   db.query("SELECT * FROM events")
     .then((data) => {
       const message = {
@@ -84,8 +86,9 @@ server.get("/events", (req, res) => {
 // });
 
 server.post("/events/add_event",(req, res) => {
-
-  console.log(req.body)
+  console.log(req.session.user_id);
+  console.log(req.body.user_id)
+  if (req.session.user_id == req.body.user_id) {
    const event = {
     event_name: req.body.event_name,
     date: req.body.date,
@@ -207,12 +210,22 @@ server.post("/events/:id/update", (req,res) => {
   database
     .update_event(event_id,event)
     .then((result) => {
-      const message = {
-        message: "Event updated"
-      };
-      console.log(event_id)
-      console.log("Event updated")
-      res.status(201).json(message);
+      if (result === 1) {
+        const message = {
+          message: "Event updated"
+        };
+        console.log(event_id)
+        console.log("Event updated")
+        res.status(201).json(message);
+      }else {
+        const message = {
+          message: "Event not exist"
+        };
+        console.log(event_id)
+        console.log("Event updated")
+        res.status(500).json(message);
+      }
+     
     })
     .catch((err) => {
       const error = {
