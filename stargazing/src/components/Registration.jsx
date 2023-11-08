@@ -14,7 +14,7 @@ export default function Registration(props) {
 
   
   if (props.message) {
-    return <Navigate to="/home" />;
+    return <Navigate to="/" />;
   }
   return (
     <form

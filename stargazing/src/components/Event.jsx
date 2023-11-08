@@ -22,7 +22,6 @@ export default function Event(props){
       <div className="signup">
         <h1>Save Event</h1>
         <label>
-         
           <input
             type="text"
             placeholder="Event"

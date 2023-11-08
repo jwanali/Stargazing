@@ -40,8 +40,6 @@ server.use(
 );
 server.get("/events", (req, res) => {
   
-  
-  
   db.query("SELECT * FROM events")
     .then((data) => {
       const message = {
@@ -86,9 +84,8 @@ server.get("/events", (req, res) => {
 // });
 
 server.post("/events/add_event",(req, res) => {
-  console.log(req.session.user_id);
-  console.log(req.body.user_id)
-  if (req.session.user_id == req.body.user_id) {
+
+  console.log(req.body)
    const event = {
     event_name: req.body.event_name,
     date: req.body.date,
@@ -130,7 +127,7 @@ server.post("/events/add_event",(req, res) => {
   
 });
 
-server.get("/events/:id", (req, res) => {
+server.get("/events/:id", (req, res) => { // id is user_id
   if (req.session.user_id) {
     const user_id = req.params.id;
     console.log(user_id)
@@ -197,6 +194,7 @@ server.post("/events/:id/delete", (req,res) => {
   }
   
 });
+
 server.post("/events/:id/update", (req,res) => {
   if (req.session.user_id) {
     const event_id = req.params.id;
@@ -275,7 +273,7 @@ server.post("/login", (req, res) => {
       res.status(500).json(error);
     });
 });
-/*
+
 server.get("/users", (req, res) => {
   db.query("SELECT * FROM users")
     .then((data) => {
@@ -291,7 +289,7 @@ server.get("/users", (req, res) => {
       res.status(500).json(error);
     });
 });
-*/
+
 server.post("/sign_up", (req, res) => {
   const user = {
     email: req.body.email,

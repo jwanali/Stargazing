@@ -30,7 +30,7 @@ export function Earth({ scroll, ...props }) {
       {<ambientLight intensity={2.2} />}
       <pointLight color="#f6f3ea" position={[2, 0, 5]} intensity={1.2} />
 
-      <mesh ref={cloudsRef} position={[0.5, 0.05, 3.225]}>
+      <mesh ref={cloudsRef} position={[0, 0.05, 3.225]}>
         <sphereGeometry args={[1.005, 33, 33]} />
         <meshPhongMaterial
           map={cloudsMap}
@@ -41,7 +41,7 @@ export function Earth({ scroll, ...props }) {
         />
       </mesh>
 
-      <mesh ref={earthRef} position={[0.5, 0.05, 3.225]}>
+      <mesh ref={earthRef} position={[0, 0.05, 3.225]}>
         <sphereGeometry args={[1, 33, 33]} />
         <meshPhongMaterial specularMap={specularMap} />
         <meshStandardMaterial

@@ -61,8 +61,8 @@
 //   );
 // }
 import React, { useState } from "react";
-import useApplicationData from "../hook/useApplicationData";
 import Alert from "./Alert";
+import "../styles/Login.css";
 import { Navigate } from "react-router-dom";
 import "../styles/Login.css";
 
@@ -73,21 +73,10 @@ export default function Login() {
     password: "",
   });
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const loginResult = await onLogin(formData);
-    if (loginResult.success) {
-      return <Navigate to="/" />
-    } else {
-       return <Navigate to="/Signup" />
-      
-    }
-  };
-
+     if (props.saveduser) {
+       console.log("i was here", props.saveduser);
+       return <Navigate to="/" />;
+     }
   return (
     <div>
       <form onSubmit={handleSubmit}>
